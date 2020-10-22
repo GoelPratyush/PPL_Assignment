@@ -1,6 +1,6 @@
-<program> ===> PROGRAM RBO RBC CBO <declarationStmt> <assign_stmt> CBC
-<declarationStmt> ===> <stmt> <declarationStmt>
-<declarationStmt> ===> <stmt>
+<program> ===> PROGRAM RBO RBC CBO <declaration_stmts> <assign_stmts> CBC
+<declaration_stmts> ===> <stmt> <declaration_stmts>
+<declaration_stmts> ===> <stmt>
 <stmt> ===> DECLARE <var> COLON <extra> SEMICOLON
 <stmt> ===> DECLARE LIST OF VARIABLES <var_list> COLON <extra> SEMICOLON
 <stmt> ===> DECLARE <var> COLON <jagged_array1> OF <type> SEMICOLON <stmt_jagged>
@@ -35,31 +35,31 @@
 <row> ===> NUM
 <limit2> ===> NUM
 <size> ===> NUM
-<assign_stmt> ===> <assign> <assign_stmt>
-<assign_stmt> ===> <assign>
+<assign_stmts> ===> <assign> <assign_stmts>
+<assign_stmts> ===> <assign>
 <assign> ===> <arithm> SEMICOLON
 <arithm> ===> <variable_dash> EQU <expr>
-<expr> ===> <expr> SUB <term1>
-<expr> ===> <term1>
-<term1> ===> <term1> ADD <term2>
-<term1> ===> <term2>
-<term2> ===> <term2> MUL <factor1>
-<term2> ===> <factor1>
-<factor1> ===> <factor1> DIV <factor2>
-<factor1> ===> <factor2>
-<factor2> ===> <expr>
-<factor2> ===> <variable>
+<expr> ===> <expr> SUB <add_stmt>
+<expr> ===> <add_stmt>
+<add_stmt> ===> <add_stmt> ADD <mul_stmt>
+<add_stmt> ===> <mul_stmt>
+<mul_stmt> ===> <mul_stmt> MUL <div_stmt>
+<mul_stmt> ===> <div_stmt>
+<div_stmt> ===> <div_stmt> DIV <term_arith>    
+<div_stmt> ===> <term_arith>    
+<term_arith> ===> <expr>
+<term_arith> ===> <variable>
 <assign> ===> <logic> SEMICOLON
-<logic> ===> <variable_dash> EQU <expr2>
-<expr2> ===> <expr2> OR <term3>
-<expr2> ===> <term3>
-<term3> ===> <term3> AND <factor3>
-<term3> ===> <factor3>
-<factor3> ===> <expr2>
-<factor3> ===> <variable>
-<variable_list> ===> <variable> <variable_list>
-<variable_list> ===> <variable>
+<logic> ===> <variable_dash> EQU <or_stmt>
+<or_stmt> ===> <or_stmt> OR <and_stmt>
+<or_stmt> ===> <and_stmt>
+<and_stmt> ===> <and_stmt> AND <term_logic>
+<and_stmt> ===> <term_logic>
+<term_logic> ===> <or_stmt>
+<term_logic> ===> <variable>
 <variable> ===> <variable_dash>
 <variable_dash> ===> <var> SQO <variable_list> SQC
 <variable_dash> ===> <var>
-<variable> ===> NUM
+<variable_list> ===> <variable> <variable_list>
+<variable_list> ===> <variable>
+<variable> ===> NUM    
