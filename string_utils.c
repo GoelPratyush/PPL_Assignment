@@ -1,3 +1,5 @@
+// Refer to string_utils.h for documentation on functions in this file.
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
