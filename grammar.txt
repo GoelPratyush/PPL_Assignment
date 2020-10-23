@@ -28,11 +28,8 @@
 <jagged_array2> ===> R1 SQO <limit2> SQC COLON SIZE <size> COLON VALUES CBO <com> CBC
 <com> ===> <column> SEMICOLON <com>
 <com> ===> <column>
-<column> ===> <col>
-<col> ===> <row> <col>
-<col> ===> <row>
-<column> ===> NUM
-<row> ===> NUM
+<column> ===> NUM <column>
+<column> ===> EPSILON
 <limit2> ===> NUM
 <size> ===> NUM
 <assign_stmts> ===> <assign> <assign_stmts>
