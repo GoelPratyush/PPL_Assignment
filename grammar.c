@@ -64,6 +64,17 @@ void printGrammar() {
   }
 }
 
-void deallocateGrammar() {
+void deallocateList(Node* headNode) {
+    if(headNode -> next == NULL) {
+        return;
+    }
+    deallocateList(headNode -> next);
+    free(headNode -> symbol);
+    free(headNode);
+}
 
+void deallocateGrammar() {
+    for(int i = 0; i < RULE_COUNT; i++) {
+        deallocateList(grammar[i]);
+    }
 }

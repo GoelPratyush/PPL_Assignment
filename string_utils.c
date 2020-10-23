@@ -17,16 +17,16 @@ int isTerminal(char s[]) {
   }
 
   // Terminals must all be in uppercase.
-  int flag_all_upper = 1;
+  int flagAllUpper = 1;
   for(int i = 0; i < len; i++) {
     // ASCII range for uppercase letters is [65, 90].
     if(s[i] < 65 || s[i] > 90) {
-      flag_all_upper = 0;
+      flagAllUpper = 0;
       break;
     }
   }
 
-  return flag_all_upper;
+  return flagAllUpper;
 }
 
 int isNonTerminal(char s[]) {

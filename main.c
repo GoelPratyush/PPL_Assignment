@@ -15,4 +15,6 @@ int main() {
   printTokenStream(headToken);
 
   deallocateTokenStream(headToken);
+
+  deallocateGrammar();
 }

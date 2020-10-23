@@ -15,4 +15,7 @@ void printGrammar();
 // 1. Deallocate the string in the union first.
 // 2. Then deallocate the union.
 // 3. Only then deallocate the node.
+void deallocateList(Node* headNode);
+
+// Iterates over each list in grammar and freeing it recursively in reverse.
 void deallocateGrammar();
