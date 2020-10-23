@@ -1,19 +1,18 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
+// Pretty prints node to stdout.
+void printNode(Node* node);
 
-#include "grammarDef.h"
+// Reads grammar.txt and populates array of linked lists grammar.
+void readGrammar(char* filepath);
 
-//Function Declarations
+// Pretty prints array of linked lists grammar to stdout.
+void printGrammar();
 
-Grammar* initGrammar();
-Rules* initRules();
-prodRules* initProdRule();
-Node* initNode();
-
-Grammar* readGrammar(char* file_path); // Parses the grammar.txt and for each line, calls buildRules fn and extracts the first non-terminal to store to rules
-Rules* buildRules(char* rules_str); // For every | it encounters, extracts a rule and calls buildProdRule and adds it to the prodRule list
-prodRules* buildProdRule(char* prod_rule_str); // Breaks the prod rule to extract different words. For each word, makes it a node and adds it to next making a list
-//void addProdRule(prodRules *prod_rule, Rules *rule);
-Node* buildNode(int enum_int, int term_nonterm); // Given type of term or non terminal and it's tag, returns a node
-int find(char* str, int term_nonterm); // Returns the enum value of given terminal/non_terminal
+// IMPORTANT:
+// Remember to deallocate the linked list from the last node to the first node
+// (otherwise you'll get a memory leak) -- basically in reverse order of
+// allocation.
+// Keep in mind before deallocating a struct node:
+// 1. Deallocate the string in the union first.
+// 2. Then deallocate the union.
+// 3. Only then deallocate the node.
+void deallocateGrammar();

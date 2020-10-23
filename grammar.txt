@@ -42,8 +42,8 @@
 <add_stmt> ===> <mul_stmt>
 <mul_stmt> ===> <mul_stmt> MUL <div_stmt>
 <mul_stmt> ===> <div_stmt>
-<div_stmt> ===> <div_stmt> DIV <term_arith>    
-<div_stmt> ===> <term_arith>    
+<div_stmt> ===> <div_stmt> DIV <term_arith>
+<div_stmt> ===> <term_arith>
 <term_arith> ===> <expr>
 <term_arith> ===> <variable>
 <assign> ===> <logic> SEMICOLON
@@ -59,4 +59,4 @@
 <variable_dash> ===> <var>
 <variable_list> ===> <variable> <variable_list>
 <variable_list> ===> <variable>
-<variable> ===> NUM    
+<variable> ===> NUM
