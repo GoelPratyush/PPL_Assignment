@@ -1,10 +1,10 @@
 <program> ===> PROGRAM RBO RBC CBO <declaration_stmts> <assign_stmts> CBC
 <declaration_stmts> ===> <stmt> <declaration_stmts>
 <declaration_stmts> ===> <stmt>
-<stmt> ===> DECLARE <var> COLON <extra> SEMICOLON
+<stmt> ===> DECLARE LIST OF VARIABLES <var_list> COLON <jagged_array1> OF <type> SEMICOLON <stmt_jagged>
 <stmt> ===> DECLARE LIST OF VARIABLES <var_list> COLON <extra> SEMICOLON
 <stmt> ===> DECLARE <var> COLON <jagged_array1> OF <type> SEMICOLON <stmt_jagged>
-<stmt> ===> DECLARE LIST OF VARIABLES <var_list> COLON <jagged_array1> OF <type> SEMICOLON <stmt_jagged>
+<stmt> ===> DECLARE <var> COLON <extra> SEMICOLON
 <var_list> ===> <var> <var_list2>
 <var_list2> ===> <var> <var_list2>
 <var_list2> ===> <var>
@@ -32,31 +32,27 @@
 <column> ===> EPSILON
 <limit2> ===> NUM
 <size> ===> NUM
-<assign_stmts> ===> <assign> <assign_stmts>
-<assign_stmts> ===> <assign>
-<assign> ===> <arithm> SEMICOLON
-<arithm> ===> <variable_dash> EQU <expr>
+<assign_stmts> ===> <assign_stmt> <assign_stmts>
+<assign_stmts> ===> <assign_stmt>
+<assign_stmt> ===> <assign> SEMICOLON
+<assign> ===> <variable_dash> EQU <expr>
 <expr> ===> <expr> SUB <add_stmt>
 <expr> ===> <add_stmt>
 <add_stmt> ===> <add_stmt> ADD <mul_stmt>
 <add_stmt> ===> <mul_stmt>
 <mul_stmt> ===> <mul_stmt> MUL <div_stmt>
 <mul_stmt> ===> <div_stmt>
-<div_stmt> ===> <div_stmt> DIV <term_arith>
-<div_stmt> ===> <term_arith>
-<term_arith> ===> <expr>
-<term_arith> ===> <variable>
-<assign> ===> <logic> SEMICOLON
-<logic> ===> <variable_dash> EQU <or_stmt>
+<div_stmt> ===> <div_stmt> DIV <or_stmt>    
+<div_stmt> ===> <or_stmt>
 <or_stmt> ===> <or_stmt> OR <and_stmt>
 <or_stmt> ===> <and_stmt>
-<and_stmt> ===> <and_stmt> AND <term_logic>
-<and_stmt> ===> <term_logic>
-<term_logic> ===> <or_stmt>
-<term_logic> ===> <variable>
-<variable> ===> <variable_dash>
+<and_stmt> ===> <and_stmt> AND <term>
+<and_stmt> ===> <term>    
+<term> ===> <expr>
+<term> ===> <variable_dash>
 <variable_dash> ===> <var> SQO <variable_list> SQC
 <variable_dash> ===> <var>
 <variable_list> ===> <variable> <variable_list>
 <variable_list> ===> <variable>
+<variable> ===> <var>
 <variable> ===> NUM
