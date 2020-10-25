@@ -1,7 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <stdbool.h> 
-#define MAX_LEXEME_LEN 20
+#include <stdbool.h>
+
+#define MAX_LEXEME_LEN 20     // Maximum number of characters in a lexeme
 
 typedef enum{
     static,
@@ -46,13 +47,13 @@ typedef struct{
     // For 3D store the size of rows and columns
     // COLUMNS {1;2;3;4} column size is 4 and row size is 1 for each row
     // ROWS {1 2 3; 1 2; 1} column size is 3 and row size is 3 2 1 respectively for each column
-    int * size[]; 
+    int * size[];
     DataType dataType;
     Error error; // Error while declaration as that time we are populating it.
 } JaggedArray;
 
 //NOT SURE. YET TO VERIFY
-typedef struct{ 
+typedef struct{
     int dimension;
     DataType dataType;
     ErrorCode errCode;

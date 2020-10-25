@@ -2,7 +2,6 @@
 
 #define RULE_COUNT 58         // Number of production rules in the grammar.
 #define MAX_LINE_LENGTH 200   // Maximum number of characters in a line in grammar.txt.
-#define MAX_LEXEME_LEN 20     // Maximum number of characters in a lexeme
 
 typedef struct node Node;
 
