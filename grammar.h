@@ -13,6 +13,9 @@ void printSymbol(int symbolTag, Symbol* s);
 // Pretty prints node to stdout.
 void printNode(Node* node);
 
+// Returns a deep copy of srcNode.
+Node* copyNode(Node* srcNode);
+
 // Pretty prints array of linked lists grammar to stdout.
 void printGrammar();
 

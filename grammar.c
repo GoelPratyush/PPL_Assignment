@@ -83,6 +83,18 @@ void printNode(Node* node) {
   printf("]");
 }
 
+Node* copyNode(Node* srcNode) {
+	Node* copyNode = NULL;
+	if(srcNode -> symbolTag == 0) {
+		copyNode = createNode(srcNode -> symbolTag, (srcNode -> symbol) -> terminal);
+	}
+	else if(srcNode -> symbolTag == 1) {
+		copyNode = createNode(srcNode -> symbolTag, (srcNode -> symbol) -> nonTerminal);
+	}
+
+	return copyNode;
+}
+
 void printGrammar() {
   for(int i = 0; i < RULE_COUNT; i++) {
     // Pointer to traverse the linked list at grammar[i].

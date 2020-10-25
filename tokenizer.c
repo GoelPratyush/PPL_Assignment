@@ -75,6 +75,10 @@ Token* tokeniseSourcecode(char* filepath, Token* headToken) {
         exit(1);
     }
 
+	if(headToken != NULL) {
+		fprintf(stderr, "Make sure headToken has not been allocated memory and is initialized to NULL to avoid memory leaks.\n");
+	}
+
     char currentLexeme[MAX_LEXEME_LEN];     // Current lexeme being read from source code file.
     Token* tailToken = headToken;               // Pointer that points to the end of the current linked list, so new token can be appended.
     int lineNum = 1;

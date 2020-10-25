@@ -1,5 +1,8 @@
-main: string_utils.o grammar.o tokenizer.o main.c
-	gcc string_utils.o grammar.o tokenizer.o main.c -o main
+main: string_utils.o grammar.o tokenizer.o parser.o main.c
+	gcc string_utils.o grammar.o tokenizer.o parser.o main.c -o main
+
+parser.o: parser.c parser.h
+	gcc -c parser.c
 
 tokenizer.o: tokenizer.c tokenizer.h
 	gcc -c tokenizer.c

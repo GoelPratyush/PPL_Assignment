@@ -1,17 +1,22 @@
-#include <stdio.h>
-#include <stdlib.h>
+// Refer to parser.h for documentation on functions in this file.
+
+// #include <stdio.h>
+// #include <stdlib.h>
 #include <string.h>
 
 #include "globals.h"
 #include "grammar.h"
-
-// Searches for rules in grammar that have LHS as lhsSymbol. Returns indices of
-// grammar where the symbols match as a linked list. Make sure you free the
-// list of indices returned by searchRule to save memory.
-int searchLHS(Symbol* lhsSymbol, int startIndexForSearch);
+#include "parser.h"
 
 int searchLHS(Symbol* lhsSymbol, int startIndexForSearch) {
-	for(int i = startIndexForSearch + 1; i < RULE_COUNT; i++) {
+	// Searching from startIndexForSearch to end of grammar.
+	for(int i = startIndexForSearch; i < RULE_COUNT; i++) {
+		if(!strcmp(lhsSymbol -> nonTerminal, (grammar[i] -> symbol) -> nonTerminal)) {
+			return i;
+		}
+	}
+	// Looping back and searching from 0 to startIndexForSearch - 1.
+	for(int i = 0; i < startIndexForSearch; i++) {
 		if(!strcmp(lhsSymbol -> nonTerminal, (grammar[i] -> symbol) -> nonTerminal)) {
 			return i;
 		}
@@ -20,9 +25,10 @@ int searchLHS(Symbol* lhsSymbol, int startIndexForSearch) {
 	return -1;
 }
 
-int main() {
+/* int main() {
 	// Populates global array of linked lists grammar.
     readGrammar("grammar.txt");
 	Symbol* searchSymbol = createSymbol(1, "<com>");
-	printf("%d\n", searchLHS(searchSymbol, 28));
+	printf("%d\n", searchLHS(searchSymbol, 30));
 }
+*/
