@@ -2,7 +2,7 @@
 
 #include "globals.h"
 #include "grammar.h"
-#include "token.h"
+#include "tokenizer.h"
 
 int main() {
   // Populates global array of linked lists grammar.

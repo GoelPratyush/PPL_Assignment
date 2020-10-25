@@ -5,6 +5,7 @@
 #include <string.h>
 
 #include "globals.h"
+#include "grammar.h"
 
 #define ARROW "===>"          // Separator between LHS and RHS of production rule.
 
@@ -47,7 +48,7 @@ int isNonTerminal(char s[]) {
 
 void processLine(char line[], char delimiter[], int grammarIndex) {
   // Getting the first symbol in line.
-  char* symbol = strtok(line, delimiter);
+  char* symbolValue = strtok(line, delimiter);
 
   // IMPORTANT:
   // Remember to deallocate the linked list from the last node to the first node
@@ -61,58 +62,37 @@ void processLine(char line[], char delimiter[], int grammarIndex) {
 
   // Inserting first symbol in a node.
   // Allocating space for node.
-  Node* headNode = malloc(sizeof(struct node));
-  headNode -> symbolTag = 1;  // Non-terminal
-  // Allocating space for union.
-  headNode -> symbol = malloc(sizeof(union symbol));
-  // Allocating space for string in union.
-  (headNode -> symbol) -> nonTerminal = malloc(sizeof(char) * strlen(symbol));
-  strcpy((headNode -> symbol) -> nonTerminal, symbol);
-  headNode -> next = NULL;
+  Node* headNode = createNode(1, symbolValue);
 
   // Pointer to iterate over the linked list.
   Node* currentNode = headNode;
 
   // Getting other symbols in same line.
-  while(symbol != NULL) {
+  while(symbolValue != NULL) {
     // Handling symbols other than arrow.
-    if(strcmp(symbol, ARROW)) {
-      if(isTerminal(symbol)) {
+    if(strcmp(symbolValue, ARROW)) {
+      if(isTerminal(symbolValue)) {
         // printf("%s is a terminal.\n", symbol);
         // Inserting next symbol in a node.
         // Allocating space for node.
-        Node* newNode = malloc(sizeof(struct node));
-        newNode -> symbolTag = 0;  // Terminal
-        // Allocating space for union.
-        newNode -> symbol = malloc(sizeof(union symbol));
-        // Allocating space for string in union.
-        (newNode -> symbol) -> terminal = malloc(sizeof(char) * strlen(symbol));
-        strcpy((newNode -> symbol) -> terminal, symbol);
-        newNode -> next = NULL;
+		Node* newNode = createNode(0, symbolValue);
 
         // Connecting newNode to the linked list.
         currentNode -> next = newNode;
         currentNode = newNode;
       }
-      else if(isNonTerminal(symbol)) {
+      else if(isNonTerminal(symbolValue)) {
         // printf("%s is a non-terminal.\n", symbol);
         // Inserting next symbol in a node.
         // Allocating space for node.
-        Node* newNode = malloc(sizeof(struct node));
-        newNode -> symbolTag = 1;  // Non-terminal
-        // Allocating space for union.
-        newNode -> symbol = malloc(sizeof(union symbol));
-        // Allocating space for string in union.
-        (newNode -> symbol) -> nonTerminal = malloc(sizeof(char) * strlen(symbol));
-        strcpy((newNode -> symbol) -> nonTerminal, symbol);
-        newNode -> next = NULL;
+        Node* newNode = createNode(1, symbolValue);
 
         // Connecting newNode to the linked list.
         currentNode -> next = newNode;
         currentNode = newNode;
       }
     }
-    symbol = strtok(NULL, delimiter);   // Getting next symbol in line.
+    symbolValue  = strtok(NULL, delimiter);   // Getting next symbol in line.
   }
 
   // Array grammar is available here as it is a global variable.

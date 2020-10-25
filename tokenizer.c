@@ -6,7 +6,7 @@
 #include <ctype.h>
 #include <limits.h>
 
-#include "token.h"
+#include "tokenizer.h"
 
 // Mapping from enum integer value to enum name.
 char* enumValueToName[] =

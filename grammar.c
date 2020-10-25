@@ -8,19 +8,29 @@
 #include "grammar.h"
 #include "string_utils.h"
 
-void printNode(Node* node) {
-  printf("[");
-  // If terminal symbol
-  if(node -> symbolTag == 0) {
-    printf("t:");
-    printf("%s", (node -> symbol) -> terminal);
-  }
-  // Else if non-terminal symbol
-  else if(node -> symbolTag == 1) {
-    printf("nt:");
-    printf("%s", (node -> symbol) -> nonTerminal);
-  }
-  printf("]");
+Symbol* createSymbol(int symbolTag, char* symbolValue) {
+	Symbol* newSymbol = malloc(sizeof(union symbol));
+
+	// Terminal
+	if(symbolTag == 0) {
+		newSymbol -> terminal = malloc(sizeof(char) * strlen(symbolValue));
+		strcpy(newSymbol -> terminal, symbolValue);
+	}
+	else if(symbolTag == 1) {
+		newSymbol -> nonTerminal = malloc(sizeof(char) * strlen(symbolValue));
+		strcpy(newSymbol -> nonTerminal, symbolValue);
+	}
+
+	return newSymbol;
+}
+
+Node* createNode(int symbolTag, char* symbolValue) {
+	Node* newNode = malloc(sizeof(struct node));
+	newNode -> symbolTag = symbolTag;
+	newNode -> symbol = createSymbol(symbolTag, symbolValue);
+	newNode -> next = NULL;
+
+	return newNode;
 }
 
 void readGrammar(char* filepath) {
@@ -47,6 +57,32 @@ void readGrammar(char* filepath) {
   fclose(fptr);
 }
 
+void printSymbol(int symbolTag, Symbol* s) {
+	// Terminal
+	if(symbolTag == 0) {
+		printf("%s", s -> terminal);
+	}
+	// Non-terminal
+	else if(symbolTag == 1) {
+		printf("%s", s -> nonTerminal);
+	}
+}
+
+void printNode(Node* node) {
+  printf("[");
+  // If terminal symbol
+  if(node -> symbolTag == 0) {
+    printf("t:");
+    printf("%s", (node -> symbol) -> terminal);
+  }
+  // Else if non-terminal symbol
+  else if(node -> symbolTag == 1) {
+    printf("nt:");
+    printf("%s", (node -> symbol) -> nonTerminal);
+  }
+  printf("]");
+}
+
 void printGrammar() {
   for(int i = 0; i < RULE_COUNT; i++) {
     // Pointer to traverse the linked list at grammar[i].
@@ -64,13 +100,30 @@ void printGrammar() {
   }
 }
 
-void deallocateList(Node* headNode) {
-    if(headNode -> next == NULL) {
-        return;
+void deallocateSymbol(Symbol* s, int symbolTag) {
+	// Terminal
+	if(symbolTag == 0) {
+		free(s -> terminal);
+		free(s);
+	}
+	// Non-terminal
+	else if(symbolTag == 1) {
+		free(s -> nonTerminal);
+		free(s);
+	}
+}
+
+void deallocateNode(Node* n) {
+	deallocateSymbol(n -> symbol, n -> symbolTag);
+	free(n);
+}
+
+void deallocateList(Node* newNode) {
+    if(newNode == NULL) {
+		return;
     }
-    deallocateList(headNode -> next);
-    free(headNode -> symbol);
-    free(headNode);
+    deallocateList(newNode -> next);
+    deallocateNode(newNode);
 }
 
 void deallocateGrammar() {
