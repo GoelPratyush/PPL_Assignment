@@ -381,11 +381,11 @@ Token* tokeniseSourcecode(char* filepath, Token* headToken) {
 
         else if(isInstInt(currentLexeme)) {
             if(tailToken == NULL) {
-                headToken = createNewToken(ID, currentLexeme, lineNum, atoi(currentLexeme));
+                headToken = createNewToken(NUM, currentLexeme, lineNum, atoi(currentLexeme));
                 tailToken = headToken;
             }
             else {
-                tailToken -> next = createNewToken(ID, currentLexeme, lineNum, atoi(currentLexeme));
+                tailToken -> next = createNewToken(NUM, currentLexeme, lineNum, atoi(currentLexeme));
                 tailToken = tailToken -> next;
             }
         }
