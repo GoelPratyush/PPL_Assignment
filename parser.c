@@ -5,8 +5,9 @@
 #include <string.h>
 
 #include "globals.h"
-#include "grammar.h"
 #include "parser.h"
+#include "stack.h"
+#include "tokenizer.h"
 
 int searchLHS(Symbol* lhsSymbol, int startIndexForSearch) {
 	// Searching from startIndexForSearch to end of grammar.
@@ -23,6 +24,10 @@ int searchLHS(Symbol* lhsSymbol, int startIndexForSearch) {
 	}
 
 	return -1;
+}
+
+int ruleMatch(int ruleIndex, Token* currentToken, Stack* stack) {
+	return 1;
 }
 
 /* int main() {

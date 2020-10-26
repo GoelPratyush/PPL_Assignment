@@ -3,6 +3,9 @@
     Stack accepts pushing and popping of terminals and non-terminals.
 */
 
+#ifndef STACK_H
+#define STACK_H
+
 // Implementing stack using linked list with pointer to head.
 typedef struct stack {
     Node* headNode;
@@ -34,3 +37,5 @@ void popn(Stack* s, int n);
 
 // Deallocates memory allocated to stack.
 void deallocateStack(Stack* s);
+
+#endif

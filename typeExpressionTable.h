@@ -1,8 +1,11 @@
+#ifndef TYPE_EXPRESSION_TABLE_H
+#define TYPE_EXPRESSION_TABLE_H
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
 
-#define MAX_LEXEME_LEN 20     // Maximum number of characters in a lexeme
+#include "globals.h"
 
 typedef enum {
     static_,
@@ -69,3 +72,5 @@ typedef struct{
 } Error;
 
 void InitializeSizeofJaggedArray(JaggedArray* jaggedArray); // Allocate the heap memory given the dimensions and limits
+
+#endif

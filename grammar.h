@@ -1,3 +1,6 @@
+#ifndef GRAMMAR_H
+#define GRAMMAR_H
+
 // Creates a new symbol for terminal/non-terminal.
 Symbol* createSymbol(int symbolTag, char* symbolValue);
 
@@ -37,3 +40,5 @@ void deallocateList(Node* headNode);
 
 // Iterates over each list in grammar and freeing it recursively in reverse.
 void deallocateGrammar();
+
+#endif

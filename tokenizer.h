@@ -1,8 +1,10 @@
+#ifndef TOKENIZER_H
+#define TOKENIZER_H
+
 #include <stdio.h>
 #include <stdlib.h>
 
-#define TOTAL_TOKEN_TYPES 31
-#define MAX_LEXEME_LEN 20     // Maximum number of characters in a lexeme
+#include "globals.h"
 
 // Make sure if you add a new name into the enum, update array enumValueToName
 // in token.c.
@@ -73,3 +75,5 @@ void printTokenStream(Token* token);
 
 // Deallocates memory allocated to all tokens in token stream.
 void deallocateTokenStream(Token* headToken);
+
+#endif

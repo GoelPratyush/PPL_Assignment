@@ -11,6 +11,7 @@
 // Mapping from enum integer value to enum name.
 char* enumValueToName[] =
 {
+	"PROGRAM",
     "DECLARE",
     "COLON",
     "SEMICOLON",
@@ -39,7 +40,8 @@ char* enumValueToName[] =
     "MUL",
     "DIV",
     "OR",
-    "AND"
+    "AND",
+	"EPSILON"
 };
 
 // Returns 1 if string input is an instantaneous integer value, else returns 0.

@@ -1,7 +1,12 @@
 // Contains declarations required by several files.
 
-#define RULE_COUNT 58         // Number of production rules in the grammar.
-#define MAX_LINE_LENGTH 200   // Maximum number of characters in a line in grammar.txt.
+#ifndef GLOBALS_H
+#define GLOBALS_H
+
+#define RULE_COUNT 58         	// Number of production rules in the grammar.
+#define MAX_LINE_LENGTH 200   	// Maximum number of characters in a line in grammar.txt.
+#define TOTAL_TOKEN_TYPES 31	// Number of types of tokens.
+#define MAX_LEXEME_LEN 20     	// Maximum number of characters in a lexeme
 
 typedef struct node Node;
 
@@ -32,3 +37,5 @@ typedef struct node {
   Hence keeping array grammar separate.
 */
 Node* grammar[RULE_COUNT];
+
+#endif
