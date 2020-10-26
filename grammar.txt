@@ -42,12 +42,12 @@
 <add_stmt> ===> <mul_stmt>
 <mul_stmt> ===> <mul_stmt> MUL <div_stmt>
 <mul_stmt> ===> <div_stmt>
-<div_stmt> ===> <div_stmt> DIV <or_stmt>    
+<div_stmt> ===> <div_stmt> DIV <or_stmt>
 <div_stmt> ===> <or_stmt>
 <or_stmt> ===> <or_stmt> OR <and_stmt>
 <or_stmt> ===> <and_stmt>
 <and_stmt> ===> <and_stmt> AND <term>
-<and_stmt> ===> <term>    
+<and_stmt> ===> <term>
 <term> ===> <expr>
 <term> ===> <variable_dash>
 <variable_dash> ===> <var> SQO <variable_list> SQC

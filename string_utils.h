@@ -1,3 +1,6 @@
+#ifndef STRING_UTILS_H
+#define STRING_UTILS_H
+
 // Returns 1 if string is a terminal, else returns 0.
 // IMPORTANT: Ensure the string passed to the function is nul-terminated.
 int isTerminal(char s[]);
@@ -11,3 +14,5 @@ int isNonTerminal(char s[]);
 // Takes a line (string) as input, tokenizes the string into symbols and adds
 // symbol to linked list in grammar.
 void processLine(char line[], char delimiter[], int grammarIndex);
+
+#endif

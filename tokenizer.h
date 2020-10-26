@@ -1,12 +1,15 @@
+#ifndef TOKENIZER_H
+#define TOKENIZER_H
+
 #include <stdio.h>
 #include <stdlib.h>
 
-#define TOTAL_TOKEN_TYPES 29
-#define MAX_LEXEME_LEN 20       // Maximum number of characters in a lexeme
+#include "globals.h"
 
 // Make sure if you add a new name into the enum, update array enumValueToName
 // in token.c.
 typedef enum {
+    PROGRAM,
     DECLARE,
     COLON,
     SEMICOLON,
@@ -35,7 +38,8 @@ typedef enum {
     MUL,
     DIV,
     OR,
-    AND
+    AND,
+    EPSILON
 } TokenType;
 
 typedef struct token {
@@ -63,11 +67,18 @@ Token* createNewToken(TokenType tokenType, char lexeme[], int lineNum, int instI
 // Goes through sourcecode.txt and returns a linked list of Token structs.
 Token* tokeniseSourcecode(char* filepath, Token* headToken);
 
+// Adds an EPSILON token in between two consecutive tokens defined by leftToken
+// and rightToken, anywhere the pattern appears in tokenStream.
+void imputeEpsilonTokens(Token* headToken, Token* leftToken, Token* rightToken);
+
 // Prints a token to stdout.
 void printToken(Token* token);
 
 // Prints linked list of tokens to stdout.
 void printTokenStream(Token* token);
 
-// Deallocates memory allocated to all tokens in token stream.
+// Deallocates memory allocated to all tokens in token stream. Can be used to
+// deallocate one token as well, provided its next pointer is NULL.
 void deallocateTokenStream(Token* headToken);
+
+#endif

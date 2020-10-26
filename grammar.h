@@ -1,3 +1,6 @@
+#ifndef GRAMMAR_H
+#define GRAMMAR_H
+
 // Creates a new symbol for terminal/non-terminal.
 Symbol* createSymbol(int symbolTag, char* symbolValue);
 
@@ -12,6 +15,12 @@ void printSymbol(int symbolTag, Symbol* s);
 
 // Pretty prints node to stdout.
 void printNode(Node* node);
+
+// Returns a deep copy of srcNode.
+Node* copyNode(Node* srcNode);
+
+// Pretty prints linked list to stdout.
+void printList(Node* headNode);
 
 // Pretty prints array of linked lists grammar to stdout.
 void printGrammar();
@@ -34,3 +43,5 @@ void deallocateList(Node* headNode);
 
 // Iterates over each list in grammar and freeing it recursively in reverse.
 void deallocateGrammar();
+
+#endif

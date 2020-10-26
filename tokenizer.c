@@ -11,6 +11,7 @@
 // Mapping from enum integer value to enum name.
 char* enumValueToName[] =
 {
+	"PROGRAM",
     "DECLARE",
     "COLON",
     "SEMICOLON",
@@ -39,7 +40,8 @@ char* enumValueToName[] =
     "MUL",
     "DIV",
     "OR",
-    "AND"
+    "AND",
+	"EPSILON"
 };
 
 // Returns 1 if string input is an instantaneous integer value, else returns 0.
@@ -75,12 +77,29 @@ Token* tokeniseSourcecode(char* filepath, Token* headToken) {
         exit(1);
     }
 
+	if(headToken != NULL) {
+		fprintf(stderr, "Make sure headToken has not been allocated memory and is initialized to NULL to avoid memory leaks.\n");
+	}
+
     char currentLexeme[MAX_LEXEME_LEN];     // Current lexeme being read from source code file.
-    Token* tailToken = headToken;               // Pointer that points to the end of the current linked list, so new token can be appended.
+    Token* tailToken = headToken;           // Pointer that points to the end of the current linked list, so new token can be appended.
     int lineNum = 1;
 
     while(fscanf(fptr, "%s", currentLexeme) != -1) {
-        if(strcmp(currentLexeme, "declare") == 0) {
+		if(strcmp(currentLexeme, "program") == 0) {
+            if(tailToken == NULL) {
+                // If head and tail are both NULL, creating new token and
+                // assigning both head and tail to it.
+                headToken = createNewToken(PROGRAM, currentLexeme, lineNum, INT_MIN);
+                tailToken = headToken;
+            }
+            else {
+                tailToken -> next = createNewToken(PROGRAM, currentLexeme, lineNum, INT_MIN);
+                tailToken = tailToken -> next;
+            }
+        }
+
+        else if(strcmp(currentLexeme, "declare") == 0) {
             if(tailToken == NULL) {
                 // If head and tail are both NULL, creating new token and
                 // assigning both head and tail to it.
@@ -397,8 +416,56 @@ Token* tokeniseSourcecode(char* filepath, Token* headToken) {
         }
     }
 
-    return headToken;
+	printf("BEFORE: "); printTokenStream(headToken);
+	Token* leftToken = createNewToken(SQO, "[", -1, 0);
+	Token* rightToken = createNewToken(SQC, "]", -1, 0);
+	imputeEpsilonTokens(headToken, leftToken, rightToken);
+	deallocateTokenStream(leftToken);
+	printf("AFTER: "); printTokenStream(headToken);
 
+	// Adding epsilon tokens:
+	// 1. CBO <insert EPSILON> SEMICOLON
+	// 2. SEMICOLON <insert EPSILON> SEMICOLON
+	// 3. SEMICOLON <insert EPSILON> CBC
+
+    return headToken;
+}
+
+void imputeEpsilonTokens(Token* headToken, Token* leftToken, Token* rightToken) {
+	// Checking that list has at least 2 nodes.
+	if(headToken -> next == NULL) {
+		fprintf(stderr, "Ensure token stream has at least 2 tokens before using imputeEpsilonToken.\n");
+		return;
+	}
+
+	// 2 pointers to traverse the list checking for matches of
+	// [leftToken] --> [rightToken] so that token EPSILON can be inserted in
+	// between as [leftToken] --> [EPSILON] --> [rightToken].
+	Token* leftTraversePointer = headToken;
+	Token* rightTraversePointer = headToken -> next;
+
+	while(rightTraversePointer != NULL) {
+		// Handling all three cases in a general way.
+		// 1. CBO <insert EPSILON> SEMICOLON
+		// 2. SEMICOLON <insert EPSILON> SEMICOLON
+		// 3. SEMICOLON <insert EPSILON> CBC
+		if((leftTraversePointer -> tokenType == leftToken -> tokenType) && (rightTraversePointer -> tokenType == rightToken -> tokenType)) {
+			// Pattern found!
+			leftTraversePointer -> next = createNewToken(EPSILON, "epsilon", leftTraversePointer -> lineNum, 0);
+			(leftTraversePointer -> next) -> next = rightTraversePointer;
+
+			// Not updating rightTraversePointer as leftTraversePointer has to
+			// catch up to right behind it, now that an extra node has been
+			// added.
+			leftTraversePointer = leftTraversePointer -> next;
+		}
+		// Checking so that we haven't reached end of list in case the above
+		// if statements have been executed and pointers moved.
+		if(rightTraversePointer != NULL) {
+			leftTraversePointer = leftTraversePointer -> next;
+			rightTraversePointer = rightTraversePointer -> next;
+		}
+	}
 }
 
 void printToken(Token* token) {
