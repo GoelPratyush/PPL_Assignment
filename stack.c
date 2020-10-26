@@ -39,15 +39,27 @@ Node* top(Stack* s) {
 }
 
 void push(Stack* s, Node* nodeToPush) {
-    nodeToPush -> next = s -> headNode;
-	s -> headNode = nodeToPush;
+	Node* copyNodeToPush = copyNode(nodeToPush);	// Don't want to push actual node structs of grammar linked lists onto stack.
+    copyNodeToPush -> next = s -> headNode;
+	s -> headNode = copyNodeToPush;
 }
 
 void pushn(Stack* s, Node* headNode) {
 	while(headNode != NULL) {
+		// Can directly push headNode here because push handles the copying. Not
+		// using copyNode here because we don't want a copy of a copy (waste of
+		// memory).
 		push(s, headNode);
 		headNode = headNode -> next;
 	}
+}
+
+void pushnReverse(Stack* s, Node* headNode) {
+	if(headNode == NULL) {
+		return;
+	}
+	pushnReverse(s, headNode -> next);
+	push(s, headNode);
 }
 
 void pop(Stack* s) {
