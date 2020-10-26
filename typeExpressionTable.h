@@ -12,7 +12,7 @@ typedef enum{
 typedef enum{
     Improper_Limits, // Upper limit is less than lower limit
     Inappropriate_Dimension, // For eg R1 [ 105 ] : size 4 : values { 20 21 33 ; 102 ; 35 ; 54 }
-    Size_Mismatch, //R1 [ 5 ] : size 2 : values { 12 10 100 ; 76 15 8 54 432 ; 29 09 76 11; 67 27 80 }
+    Size_Mismatch, // R1 [ 5 ] : size 2 : values { 12 10 100 ; 76 15 8 54 432 ; 29 09 76 11; 67 27 80 }
     Limits_Undeclared  // If we have a variable as limit and it is not present in expressionTable then this error
 } ErrorCode;
 
