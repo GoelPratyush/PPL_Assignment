@@ -9,7 +9,7 @@ typedef struct{
     TreeNode * sibling; // Pointer to sibling node
     int tag; // 0 if terminal and 1 if non terminal
     NodeType type; // This is tag union to store the data corresponding to terminal or a non terminal
-    int depth; // depth of root node is 1
+    int depth; // depth of root node is 0
 } TreeNode;
 
 typedef union{
