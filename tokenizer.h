@@ -67,13 +67,18 @@ Token* createNewToken(TokenType tokenType, char lexeme[], int lineNum, int instI
 // Goes through sourcecode.txt and returns a linked list of Token structs.
 Token* tokeniseSourcecode(char* filepath, Token* headToken);
 
+// Adds an EPSILON token in between two consecutive tokens defined by leftToken
+// and rightToken, anywhere the pattern appears in tokenStream.
+void imputeEpsilonTokens(Token* headToken, Token* leftToken, Token* rightToken);
+
 // Prints a token to stdout.
 void printToken(Token* token);
 
 // Prints linked list of tokens to stdout.
 void printTokenStream(Token* token);
 
-// Deallocates memory allocated to all tokens in token stream.
+// Deallocates memory allocated to all tokens in token stream. Can be used to
+// deallocate one token as well, provided its next pointer is NULL.
 void deallocateTokenStream(Token* headToken);
 
 #endif

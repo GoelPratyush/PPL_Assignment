@@ -43,9 +43,10 @@ void push(Stack* s, Node* nodeToPush) {
 	s -> headNode = nodeToPush;
 }
 
-void pushn(Stack* s, Node* nodeArray[], int arrayLen) {
-	for(int i = 0; i < arrayLen; i++) {
-		push(s, nodeArray[i]);
+void pushn(Stack* s, Node* headNode) {
+	while(headNode != NULL) {
+		push(s, headNode);
+		headNode = headNode -> next;
 	}
 }
 
@@ -75,26 +76,4 @@ void popn(Stack* s, int n) {
 void deallocateStack(Stack* s) {
     deallocateList(s -> headNode);
     free(s);
-}
-
-int main() {
-	Stack* s = createEmptyStack();
-	printStack(s); printf("\n");
-
-	pop(s);
-	printStack(s); printf("\n");
-
-	readGrammar("sourcecode.txt");
-
-	Node* nodeArray[2];
-	nodeArray[0] = copyNode(grammar[0]);
-	nodeArray[1] = copyNode(grammar[1]);
-	nodeArray[1] = grammar[1];
-	push(s, nodeArray[0]);
-	printStack(s); printf("\n");
-	push(s, nodeArray[1]);
-	printStack(s); printf("\n");
-
-	popn(s, 3);
-	printStack(s); printf("\n");
 }

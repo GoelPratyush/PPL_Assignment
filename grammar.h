@@ -19,6 +19,9 @@ void printNode(Node* node);
 // Returns a deep copy of srcNode.
 Node* copyNode(Node* srcNode);
 
+// Pretty prints linked list to stdout.
+void printList(Node* headNode);
+
 // Pretty prints array of linked lists grammar to stdout.
 void printGrammar();
 

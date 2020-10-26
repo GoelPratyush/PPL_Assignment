@@ -73,12 +73,12 @@ void printNode(Node* node) {
   // If terminal symbol
   if(node -> symbolTag == 0) {
     printf("t:");
-    printf("%s", (node -> symbol) -> terminal);
+    printSymbol(node -> symbolTag, node -> symbol);
   }
   // Else if non-terminal symbol
   else if(node -> symbolTag == 1) {
     printf("nt:");
-    printf("%s", (node -> symbol) -> nonTerminal);
+    printSymbol(node -> symbolTag, node -> symbol);
   }
   printf("]");
 }
@@ -91,24 +91,25 @@ Node* copyNode(Node* srcNode) {
 	else if(srcNode -> symbolTag == 1) {
 		copyNode = createNode(srcNode -> symbolTag, (srcNode -> symbol) -> nonTerminal);
 	}
-
 	return copyNode;
+}
+
+void printList(Node* headNode) {
+	printf("<head> [");
+	while(headNode != NULL) {
+		printNode(headNode);
+		if(headNode -> next != NULL) {
+			printf(" --> ");
+		}
+		headNode = headNode -> next;
+	}
+	printf("]");
 }
 
 void printGrammar() {
   for(int i = 0; i < RULE_COUNT; i++) {
     // Pointer to traverse the linked list at grammar[i].
-    Node* currentNode = grammar[i];
-
-    while(currentNode != NULL) {
-      printNode(currentNode);
-      if(currentNode -> next != NULL) {
-        printf(" --> ");
-      }
-      currentNode = currentNode -> next;
-    }
-
-    printf("\n");
+    printList(grammar[i]); printf("\n");
   }
 }
 

@@ -26,8 +26,8 @@ Node* top(Stack* s);
 // Pushes node onto stack.
 void push(Stack* s, Node* nodeToPush);
 
-// Pushes nodes in nodeArray onto stack in left to right order.
-void pushn(Stack* s, Node* nodeArray[], int arrayLen);
+// Pushes nodes from linked list onto stack in left to right order.
+void pushn(Stack* s, Node* headNode);
 
 // Pops node from stack.
 void pop(Stack* s);

@@ -27,7 +27,16 @@ int searchLHS(Symbol* lhsSymbol, int startIndexForSearch) {
 }
 
 int ruleMatch(int ruleIndex, Token* currentToken, Stack* stack) {
-	return 1;
+	if(!isEmpty(stack)) {
+		pop(stack);
+	}
+
+	int count = 0;	// To keep track of how many terminals/non-terminals pushed onto stack for current rule.
+
+	Node* currentNode = stack -> headNode;
+	while(currentNode != NULL) {
+		return 1;
+	}
 }
 
 /* int main() {
