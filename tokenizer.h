@@ -1,12 +1,13 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#define TOTAL_TOKEN_TYPES 30
+#define TOTAL_TOKEN_TYPES 31
 #define MAX_LEXEME_LEN 20     // Maximum number of characters in a lexeme
 
 // Make sure if you add a new name into the enum, update array enumValueToName
 // in token.c.
 typedef enum {
+    PROGRAM,
     DECLARE,
     COLON,
     SEMICOLON,
