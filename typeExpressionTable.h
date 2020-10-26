@@ -34,7 +34,7 @@ typedef struct {
     int tag; //0 for primitive datatype, 1 for rectangular array, 2 for jagged array. It acts as tag value.
     RectangularArrayType arrayType; //This is of type as enum as it can have only 3 values if it is rectangular then find out if it is static or dynamic. If it is not a rectangular array then not_applicable
     StructType type; // Union type field 4 carrying information about primitive, rectangular array and jagged array.
-} typeExpression;
+} TypeExpression;
 
 typedef union{
     Primitive primitive;
