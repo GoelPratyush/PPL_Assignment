@@ -59,6 +59,7 @@ typedef struct{
 typedef struct{
     int dimension;
     DataType dataType;
+    int *limits[2]; // 2D array to store the lower and upper limit for each dimension
     ErrorCode errCode;
 } Array;
 
@@ -72,5 +73,10 @@ typedef struct{
 } Error;
 
 void InitializeSizeofJaggedArray(JaggedArray* jaggedArray); // Allocate the heap memory given the dimensions and limits
+
+typedef struct{
+    int varNum;
+    TypeExpression *table;
+} typeExpressionTable;
 
 #endif
