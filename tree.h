@@ -3,7 +3,7 @@
 #include "tokenizer.h"
 
 typedef struct{
-    Symbol symbol; // Symbol name of terminal ya non terminal according to grammar.txt
+    Symbol* symbol; // Symbol name of terminal ya non terminal according to grammar.txt
     TreeNode * parent; // Pointer to the parent node
     TreeNode * leftChild; // Pointer to left child
     TreeNode * sibling; // Pointer to sibling node
@@ -26,4 +26,4 @@ typedef struct{
 typedef struct{
     TypeExpression typeExpr;
     int ruleNumber;
-}
+} NonTerminal;
