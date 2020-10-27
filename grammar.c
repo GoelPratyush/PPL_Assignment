@@ -94,6 +94,33 @@ Node* copyNode(Node* srcNode) {
 	return copyNode;
 }
 
+Node* copyList(Node* headNode) {
+	if(headNode == NULL) {
+		fprintf(stderr, "Pass a list of non-zero number of elements to copyList.\n");
+	}
+
+	Node* copyHead = copyNode(headNode);
+	Node* copyTail = copyHead;
+
+	while(headNode != NULL) {
+		copyTail -> next = copyNode(headNode);
+		copyTail = copyTail -> next;
+		headNode = headNode -> next;
+	}
+
+	return copyHead;
+}
+
+int lenList(Node* headNode) {
+	int len = 0;
+	while(headNode != NULL) {
+		len++;
+		headNode = headNode -> next;
+	}
+
+	return len;
+}
+
 void printList(Node* headNode) {
 	printf("<head> [");
 	while(headNode != NULL) {

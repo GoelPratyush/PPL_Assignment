@@ -33,14 +33,14 @@ typedef struct {
     char lexeme[MAX_LEXEME_LEN]; //Storing the variables
     int tag; //0 for primitive datatype, 1 for rectangular array, 2 for jagged array. It acts as tag value.
     RectangularArrayType arrayType; //This is of type as enum as it can have only 3 values if it is rectangular then find out if it is static or dynamic. If it is not a rectangular array then not_applicable
-    StructType type; // Union type field 4 carrying information about primitive, rectangular array and jagged array.
+    UnionType* unionType; // Union type field 4 carrying information about primitive, rectangular array and jagged array.
 } TypeExpression;
 
 typedef union{
-    Primitive primitive;
-    Array array;
-    JaggedArray jaggedArray;
-} StructType; //Variable type primitive, rectangular array or jagged array
+    Primitive* primitive;
+    Array* array;
+    JaggedArray* jaggedArray;
+} UnionType; //Variable type primitive, rectangular array or jagged array
 
 typedef struct{
     int lowerLimit;
@@ -52,13 +52,15 @@ typedef struct{
     // ROWS {1 2 3; 1 2; 1} column size is 3 and row size is 3 2 1 respectively for each column
     int* size[];
     DataType dataType;
-    Error error; // Error while declaration as that time we are populating it.
+    Error* error; // Error while declaration as that time we are populating it.
 } JaggedArray;
 
 //NOT SURE. YET TO VERIFY
 typedef struct{
     int dimension;
+    int* size[];
     DataType dataType;
+    int *limits[2]; // 2D array to store the lower and upper limit for each dimension
     ErrorCode errCode;
 } Array;
 
@@ -71,6 +73,24 @@ typedef struct{
     ErrorCode errCode; // What type of error
 } Error;
 
-void InitializeSizeofJaggedArray(JaggedArray* jaggedArray); // Allocate the heap memory given the dimensions and limits
+void initializeSizeofJaggedArray(JaggedArray* jaggedArray); // Allocate the heap memory given the dimensions and limits
+
+void deallocateError(Error* error); // avoid memory leaks
+
+void deallocateJaggedArray(JaggedArray* jaggedArray); //To avoid memory leaks
+
+void deallocateArray(Array* array);
+
+void deallocatePrimitive(Primitive* primitive);
+
+void deallocateUnionType(UnionType* unionType, int tag); // Avoid memory leaks
+
+void deallocateTypeExpression(TypeExpression* typeExpression);
+
+typedef struct{
+    int varNum;
+    TypeExpression *table;
+} typeExpressionTable;
 
 #endif
+

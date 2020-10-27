@@ -14,4 +14,7 @@ int searchLHS(Symbol* lhsSymbol, int startIndexForSearch);
 // exactly one token = "<program>"
 int ruleMatch(int ruleIndex, Token* currentToken, Stack* stack);
 
+// Function to create parse tree.
+// void createParseTree(ParseTree* parseTree, TokenStream* tokenStream);
+
 #endif

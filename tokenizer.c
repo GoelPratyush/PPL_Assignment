@@ -18,12 +18,10 @@ char* enumValueToName[] =
     "LIST",
     "OF",
     "VARIABLES",
-    "ID",
     "ARRAY",
     "SQO",
     "DOT",
     "SQC",
-    "NUM",
     "INT",
     "BOOL",
     "REAL",
@@ -33,19 +31,26 @@ char* enumValueToName[] =
     "SIZE",
     "CBO",
     "CBC",
+	"RBO",
     "RBC",
-    "RBO",
     "EQU",
     "ADD",
+	"SUB",
     "MUL",
     "DIV",
+	"AND",
     "OR",
-    "AND",
-	"EPSILON"
+	"NUM",
+	"ID",
+    "EPSILON"
 };
 
 // Returns 1 if string input is an instantaneous integer value, else returns 0.
 int isInstInt(char* lexeme) {
+	// If lexeme is an empty string, i.e., epsilon, returning 0.
+	if(strlen(lexeme) == 0) {
+		return 0;
+	}
     for(int i = 0; i < strlen(lexeme); i++) {
         if(isdigit(lexeme[i]) == 0) {
             // Not an instantaneous integer value.
@@ -55,15 +60,278 @@ int isInstInt(char* lexeme) {
     return 1;
 }
 
+// Returns 1 if lexeme is a valid variable identifier name, else returns 0.
+int isValidVarID(char* lexeme) {
+	if(isInstInt(&lexeme[0])) {
+		return 0;
+	}
+	return 1;
+}
+
 // Make sure the Token struct returned is freed after use.
-Token* createNewToken(TokenType tokenType, char lexeme[], int lineNum, int instInt) {
-    // Allocating memory for new token.
-    Token* newToken = malloc(sizeof(struct token));
-    newToken -> lineNum = lineNum;
-    newToken -> tokenType = tokenType;
-    strcpy(newToken -> lexeme, lexeme);
-    newToken -> instInt = instInt;
-    newToken -> next = NULL;
+Token* createNewToken(char lexeme[], int lineNum) {
+	Token* newToken = malloc(sizeof(struct token));
+
+	if(strcmp(lexeme, "program") == 0) {
+		newToken -> lineNum = lineNum;
+	    newToken -> tokenType = PROGRAM;
+	    strcpy(newToken -> lexeme, lexeme);
+	    newToken -> instInt = INT_MIN;
+	    newToken -> next = NULL;
+    }
+
+    else if(strcmp(lexeme, "declare") == 0) {
+		newToken -> lineNum = lineNum;
+	    newToken -> tokenType = DECLARE;
+	    strcpy(newToken -> lexeme, lexeme);
+	    newToken -> instInt = INT_MIN;
+	    newToken -> next = NULL;
+    }
+
+	else if(strcmp(lexeme, ":") == 0) {
+		newToken -> lineNum = lineNum;
+	    newToken -> tokenType = COLON;
+	    strcpy(newToken -> lexeme, lexeme);
+	    newToken -> instInt = INT_MIN;
+	    newToken -> next = NULL;
+	}
+
+	else if(strcmp(lexeme, ";") == 0) {
+		newToken -> lineNum = lineNum;
+	    newToken -> tokenType = SEMICOLON;
+	    strcpy(newToken -> lexeme, lexeme);
+	    newToken -> instInt = INT_MIN;
+	    newToken -> next = NULL;
+	}
+
+    else if(strcmp(lexeme, "list") == 0) {
+		newToken -> lineNum = lineNum;
+	    newToken -> tokenType = LIST;
+	    strcpy(newToken -> lexeme, lexeme);
+	    newToken -> instInt = INT_MIN;
+	    newToken -> next = NULL;
+    }
+
+    else if(strcmp(lexeme, "of") == 0) {
+		newToken -> lineNum = lineNum;
+	    newToken -> tokenType = OF;
+	    strcpy(newToken -> lexeme, lexeme);
+	    newToken -> instInt = INT_MIN;
+	    newToken -> next = NULL;
+    }
+
+    else if(strcmp(lexeme, "variables") == 0) {
+		newToken -> lineNum = lineNum;
+	    newToken -> tokenType = VARIABLES;
+	    strcpy(newToken -> lexeme, lexeme);
+	    newToken -> instInt = INT_MIN;
+	    newToken -> next = NULL;
+    }
+
+	else if(strcmp(lexeme, "array") == 0) {
+		newToken -> lineNum = lineNum;
+	    newToken -> tokenType = ARRAY;
+	    strcpy(newToken -> lexeme, lexeme);
+	    newToken -> instInt = INT_MIN;
+	    newToken -> next = NULL;
+    }
+
+    else if(strcmp(lexeme, "[") == 0) {
+		newToken -> lineNum = lineNum;
+	    newToken -> tokenType = SQO;
+	    strcpy(newToken -> lexeme, lexeme);
+	    newToken -> instInt = INT_MIN;
+	    newToken -> next = NULL;
+    }
+
+	else if(strcmp(lexeme, "..") == 0) {
+		newToken -> lineNum = lineNum;
+	    newToken -> tokenType = DOT;
+	    strcpy(newToken -> lexeme, lexeme);
+	    newToken -> instInt = INT_MIN;
+	    newToken -> next = NULL;
+    }
+
+    else if(strcmp(lexeme, "]") == 0) {
+		newToken -> lineNum = lineNum;
+	    newToken -> tokenType = SQC;
+	    strcpy(newToken -> lexeme, lexeme);
+	    newToken -> instInt = INT_MIN;
+	    newToken -> next = NULL;
+    }
+
+	else if(strcmp(lexeme, "integer") == 0) {
+		newToken -> lineNum = lineNum;
+	    newToken -> tokenType = INT;
+	    strcpy(newToken -> lexeme, lexeme);
+	    newToken -> instInt = INT_MIN;
+	    newToken -> next = NULL;
+    }
+
+	else if(strcmp(lexeme, "boolean") == 0) {
+		newToken -> lineNum = lineNum;
+	    newToken -> tokenType = BOOL;
+	    strcpy(newToken -> lexeme, lexeme);
+	    newToken -> instInt = INT_MIN;
+	    newToken -> next = NULL;
+    }
+
+    else if(strcmp(lexeme, "real") == 0) {
+		newToken -> lineNum = lineNum;
+	    newToken -> tokenType = REAL;
+	    strcpy(newToken -> lexeme, lexeme);
+	    newToken -> instInt = INT_MIN;
+	    newToken -> next = NULL;
+    }
+
+    else if(strcmp(lexeme,"jagged") == 0) {
+		newToken -> lineNum = lineNum;
+	    newToken -> tokenType = JAGGED;
+	    strcpy(newToken -> lexeme, lexeme);
+	    newToken -> instInt = INT_MIN;
+	    newToken -> next = NULL;
+    }
+
+	else if(strcmp(lexeme, "R1") == 0) {
+		newToken -> lineNum = lineNum;
+	    newToken -> tokenType = R1;
+	    strcpy(newToken -> lexeme, lexeme);
+	    newToken -> instInt = INT_MIN;
+	    newToken -> next = NULL;
+    }
+
+	else if(strcmp(lexeme, "values") == 0) {
+		newToken -> lineNum = lineNum;
+	    newToken -> tokenType = VALUE;
+	    strcpy(newToken -> lexeme, lexeme);
+	    newToken -> instInt = INT_MIN;
+	    newToken -> next = NULL;
+    }
+
+    else if(strcmp(lexeme, "size") == 0) {
+		newToken -> lineNum = lineNum;
+	    newToken -> tokenType = SIZE;
+	    strcpy(newToken -> lexeme, lexeme);
+	    newToken -> instInt = INT_MIN;
+	    newToken -> next = NULL;
+    }
+
+	else if(strcmp(lexeme, "{") == 0) {
+		newToken -> lineNum = lineNum;
+	    newToken -> tokenType = CBO;
+	    strcpy(newToken -> lexeme, lexeme);
+	    newToken -> instInt = INT_MIN;
+	    newToken -> next = NULL;
+    }
+
+    else if(strcmp(lexeme, "}") == 0) {
+		newToken -> lineNum = lineNum;
+	    newToken -> tokenType = CBC;
+	    strcpy(newToken -> lexeme, lexeme);
+	    newToken -> instInt = INT_MIN;
+	    newToken -> next = NULL;
+    }
+
+	else if(strcmp(lexeme, "(") == 0) {
+		newToken -> lineNum = lineNum;
+	    newToken -> tokenType = RBO;
+	    strcpy(newToken -> lexeme, lexeme);
+	    newToken -> instInt = INT_MIN;
+	    newToken -> next = NULL;
+    }
+
+    else if(strcmp(lexeme, ")") == 0) {
+		newToken -> lineNum = lineNum;
+	    newToken -> tokenType = RBC;
+	    strcpy(newToken -> lexeme, lexeme);
+	    newToken -> instInt = INT_MIN;
+	    newToken -> next = NULL;
+    }
+
+	else if(strcmp(lexeme, "=") == 0) {
+		newToken -> lineNum = lineNum;
+	    newToken -> tokenType = EQU;
+	    strcpy(newToken -> lexeme, lexeme);
+	    newToken -> instInt = INT_MIN;
+	    newToken -> next = NULL;
+    }
+
+    else if(strcmp(lexeme, "+") == 0) {
+		newToken -> lineNum = lineNum;
+	    newToken -> tokenType = ADD;
+	    strcpy(newToken -> lexeme, lexeme);
+	    newToken -> instInt = INT_MIN;
+	    newToken -> next = NULL;
+    }
+
+	else if(strcmp(lexeme, "-") == 0) {
+		newToken -> lineNum = lineNum;
+	    newToken -> tokenType = SUB;
+	    strcpy(newToken -> lexeme, lexeme);
+	    newToken -> instInt = INT_MIN;
+	    newToken -> next = NULL;
+    }
+
+    else if(strcmp(lexeme, "*") == 0) {
+		newToken -> lineNum = lineNum;
+	    newToken -> tokenType = MUL;
+	    strcpy(newToken -> lexeme, lexeme);
+	    newToken -> instInt = INT_MIN;
+	    newToken -> next = NULL;
+    }
+
+    else if(strcmp(lexeme, "/") == 0) {
+		newToken -> lineNum = lineNum;
+	    newToken -> tokenType = DIV;
+	    strcpy(newToken -> lexeme, lexeme);
+	    newToken -> instInt = INT_MIN;
+	    newToken -> next = NULL;
+    }
+
+    else if(strcmp(lexeme, "&&&") == 0) {
+		newToken -> lineNum = lineNum;
+	    newToken -> tokenType = AND;
+	    strcpy(newToken -> lexeme, lexeme);
+	    newToken -> instInt = INT_MIN;
+	    newToken -> next = NULL;
+    }
+
+    else if(strcmp(lexeme, "|||") == 0) {
+		newToken -> lineNum = lineNum;
+	    newToken -> tokenType = OR;
+	    strcpy(newToken -> lexeme, lexeme);
+	    newToken -> instInt = INT_MIN;
+	    newToken -> next = NULL;
+    }
+
+    else if(isInstInt(lexeme)) {
+		newToken -> lineNum = lineNum;
+	    newToken -> tokenType = NUM;
+	    strcpy(newToken -> lexeme, lexeme);
+	    newToken -> instInt = atoi(lexeme);
+	    newToken -> next = NULL;
+    }
+
+	else if(strcmp(lexeme, "") == 0) {
+		newToken -> lineNum = lineNum;
+	    newToken -> tokenType = EPSILON;
+	    strcpy(newToken -> lexeme, lexeme);
+	    newToken -> instInt = atoi(lexeme);
+	    newToken -> next = NULL;
+	}
+
+	else {
+		if(isValidVarID(lexeme)) {
+			newToken -> lineNum = lineNum;
+		    newToken -> tokenType = ID;
+		    strcpy(newToken -> lexeme, lexeme);
+		    newToken -> instInt = atoi(lexeme);
+		    newToken -> next = NULL;
+		}
+		else {
+			fprintf(stderr, "Something's wrong with the sourcecode or tokenizer.\n");
+		}
+	}
 
     return newToken;
 }
@@ -71,7 +339,7 @@ Token* createNewToken(TokenType tokenType, char lexeme[], int lineNum, int instI
 // Make sure the token you pass to this function has not been allocated memory
 // and is initialized to NULL to avoid memory leaks.
 Token* tokeniseSourcecode(char* filepath, Token* headToken) {
-    FILE* fptr = fopen(filepath, "r");
+	FILE* fptr = fopen(filepath, "r");
     if(fptr == NULL) {
         fprintf(stderr, "File could not be found or does not exist.");
         exit(1);
@@ -86,349 +354,25 @@ Token* tokeniseSourcecode(char* filepath, Token* headToken) {
     int lineNum = 1;
 
     while(fscanf(fptr, "%s", currentLexeme) != -1) {
-		if(strcmp(currentLexeme, "program") == 0) {
-            if(tailToken == NULL) {
-                // If head and tail are both NULL, creating new token and
-                // assigning both head and tail to it.
-                headToken = createNewToken(PROGRAM, currentLexeme, lineNum, INT_MIN);
-                tailToken = headToken;
-            }
-            else {
-                tailToken -> next = createNewToken(PROGRAM, currentLexeme, lineNum, INT_MIN);
-                tailToken = tailToken -> next;
-            }
+		if(tailToken == NULL) {
+            // If head and tail are both NULL, creating new token and
+            // assigning both head and tail to it.
+            headToken = createNewToken(currentLexeme, lineNum);
+            tailToken = headToken;
+        }
+		else {
+            tailToken -> next = createNewToken(currentLexeme, lineNum);
+            tailToken = tailToken -> next;
         }
 
-        else if(strcmp(currentLexeme, "declare") == 0) {
-            if(tailToken == NULL) {
-                // If head and tail are both NULL, creating new token and
-                // assigning both head and tail to it.
-                headToken = createNewToken(DECLARE, currentLexeme, lineNum, INT_MIN);
-                tailToken = headToken;
-            }
-            else {
-                tailToken -> next = createNewToken(DECLARE, currentLexeme, lineNum, INT_MIN);
-                tailToken = tailToken -> next;
-            }
-        }
-
-        else if(strcmp(currentLexeme, "list") == 0) {
-            if(tailToken == NULL) {
-                headToken = createNewToken(LIST, currentLexeme, lineNum, INT_MIN);
-                tailToken = headToken;
-            }
-            else {
-                tailToken -> next = createNewToken(LIST, currentLexeme, lineNum, INT_MIN);
-                tailToken = tailToken -> next;
-            }
-        }
-
-        else if(strcmp(currentLexeme, "of") == 0) {
-            if(tailToken == NULL) {
-                headToken = createNewToken(OF, currentLexeme, lineNum, INT_MIN);
-                tailToken = headToken;
-            }
-            else {
-                tailToken -> next = createNewToken(OF, currentLexeme, lineNum, INT_MIN);
-                tailToken = tailToken -> next;
-            }
-        }
-
-        else if(strcmp(currentLexeme, "variables") == 0) {
-            if(tailToken == NULL) {
-                headToken = createNewToken(VARIABLES, currentLexeme, lineNum, INT_MIN);
-                tailToken = headToken;
-            }
-            else {
-                tailToken -> next = createNewToken(VARIABLES, currentLexeme, lineNum, INT_MIN);
-                tailToken = tailToken -> next;
-            }
-        }
-
-        else if(strcmp(currentLexeme, "integer") == 0) {
-            if(tailToken == NULL) {
-                headToken = createNewToken(INT, currentLexeme, lineNum, INT_MIN);
-                tailToken = headToken;
-            }
-            else {
-                tailToken -> next = createNewToken(INT, currentLexeme, lineNum, INT_MIN);
-                tailToken = tailToken -> next;
-            }
-        }
-
-        else if(strcmp(currentLexeme, ";") == 0) {
-            if(tailToken == NULL) {
-                headToken = createNewToken(SEMICOLON, currentLexeme, lineNum, INT_MIN);
-                tailToken = headToken;
-            }
-            else {
-                tailToken -> next = createNewToken(SEMICOLON, currentLexeme, lineNum, INT_MIN);
-                tailToken = tailToken -> next;
-            }
-        }
-
-        else if(strcmp(currentLexeme,"jagged") == 0) {
-            if(tailToken == NULL) {
-                headToken = createNewToken(JAGGED, currentLexeme, lineNum, INT_MIN);
-                tailToken = headToken;
-            }
-            else {
-                tailToken -> next = createNewToken(JAGGED, currentLexeme, lineNum, INT_MIN);
-                tailToken = tailToken -> next;
-            }
-        }
-
-        else if(strcmp(currentLexeme, "size") == 0) {
-            if(tailToken == NULL) {
-                headToken = createNewToken(SIZE, currentLexeme, lineNum, INT_MIN);
-                tailToken = headToken;
-            }
-            else {
-                tailToken -> next = createNewToken(SIZE, currentLexeme, lineNum, INT_MIN);
-                tailToken = tailToken -> next;
-            }
-        }
-
-        else if(strcmp(currentLexeme, "R1") == 0) {
-            if(tailToken == NULL) {
-                headToken = createNewToken(R1, currentLexeme, lineNum, INT_MIN);
-                tailToken = headToken;
-            }
-            else {
-                tailToken -> next = createNewToken(R1, currentLexeme, lineNum, INT_MIN);
-                tailToken = tailToken -> next;
-            }
-        }
-
-        else if(strcmp(currentLexeme, "[") == 0) {
-            if(tailToken == NULL) {
-                headToken = createNewToken(SQO, currentLexeme, lineNum, INT_MIN);
-                tailToken = headToken;
-            }
-            else {
-                tailToken -> next = createNewToken(SQO, currentLexeme, lineNum, INT_MIN);
-                tailToken = tailToken -> next;
-            }
-        }
-
-        else if(strcmp(currentLexeme, "]") == 0) {
-            if(tailToken == NULL) {
-                headToken = createNewToken(SQC, currentLexeme, lineNum, INT_MIN);
-                tailToken = headToken;
-            }
-            else {
-                tailToken -> next = createNewToken(SQC, currentLexeme, lineNum, INT_MIN);
-                tailToken = tailToken -> next;
-            }
-        }
-
-        else if(strcmp(currentLexeme, "..") == 0) {
-            if(tailToken == NULL) {
-                headToken = createNewToken(DOT, currentLexeme, lineNum, INT_MIN);
-                tailToken = headToken;
-            }
-            else {
-                tailToken -> next = createNewToken(DOT, currentLexeme, lineNum, INT_MIN);
-                tailToken = tailToken -> next;
-            }
-        }
-
-        else if(strcmp(currentLexeme, ":") == 0) {
-            if(tailToken == NULL) {
-                headToken = createNewToken(COLON, currentLexeme, lineNum, INT_MIN);
-                tailToken = headToken;
-            }
-            else {
-                tailToken -> next = createNewToken(COLON, currentLexeme, lineNum, INT_MIN);
-                tailToken = tailToken -> next;
-            }
-        }
-
-        else if(strcmp(currentLexeme, "{") == 0) {
-            if(tailToken == NULL) {
-                headToken = createNewToken(CBO, currentLexeme, lineNum, INT_MIN);
-                tailToken = headToken;
-            }
-            else {
-                tailToken -> next = createNewToken(CBO, currentLexeme, lineNum, INT_MIN);
-                tailToken = tailToken -> next;
-            }
-        }
-
-        else if(strcmp(currentLexeme, "}") == 0) {
-            if(tailToken == NULL) {
-                headToken = createNewToken(CBC, currentLexeme, lineNum, INT_MIN);
-                tailToken = headToken;
-            }
-            else {
-                tailToken -> next = createNewToken(CBC, currentLexeme, lineNum, INT_MIN);
-                tailToken = tailToken -> next;
-            }
-        }
-
-        else if(strcmp(currentLexeme, "values") == 0) {
-            if(tailToken == NULL) {
-                headToken = createNewToken(VALUE, currentLexeme, lineNum, INT_MIN);
-                tailToken = headToken;
-            }
-            else {
-                tailToken -> next = createNewToken(VALUE, currentLexeme, lineNum, INT_MIN);
-                tailToken = tailToken -> next;
-            }
-        }
-
-        else if(strcmp(currentLexeme, "array") == 0) {
-            if(tailToken == NULL) {
-                headToken = createNewToken(ARRAY, currentLexeme, lineNum, INT_MIN);
-                tailToken = headToken;
-            }
-            else {
-                tailToken -> next = createNewToken(ARRAY, currentLexeme, lineNum, INT_MIN);
-                tailToken = tailToken -> next;
-            }
-        }
-
-        else if(strcmp(currentLexeme, "boolean") == 0) {
-            if(tailToken == NULL) {
-                headToken = createNewToken(BOOL, currentLexeme, lineNum, INT_MIN);
-                tailToken = headToken;
-            }
-            else {
-                tailToken -> next = createNewToken(BOOL, currentLexeme, lineNum, INT_MIN);
-                tailToken = tailToken -> next;
-            }
-        }
-
-        else if(strcmp(currentLexeme, "real") == 0) {
-            if(tailToken == NULL) {
-                headToken = createNewToken(REAL, currentLexeme, lineNum, INT_MIN);
-                tailToken = headToken;
-            }
-            else {
-                tailToken -> next = createNewToken(REAL, currentLexeme, lineNum, INT_MIN);
-                tailToken = tailToken -> next;
-            }
-        }
-
-        else if(strcmp(currentLexeme, "+") == 0) {
-            if(tailToken == NULL) {
-                headToken = createNewToken(ADD, currentLexeme, lineNum, INT_MIN);
-                tailToken = headToken;
-            }
-            else {
-                tailToken -> next = createNewToken(ADD, currentLexeme, lineNum, INT_MIN);
-                tailToken = tailToken -> next;
-            }
-        }
-
-        else if(strcmp(currentLexeme, "*") == 0) {
-            if(tailToken == NULL) {
-                headToken = createNewToken(MUL, currentLexeme, lineNum, INT_MIN);
-                tailToken = headToken;
-            }
-            else {
-                tailToken -> next = createNewToken(MUL, currentLexeme, lineNum, INT_MIN);
-                tailToken = tailToken -> next;
-            }
-        }
-
-        else if(strcmp(currentLexeme, "/") == 0) {
-            if(tailToken == NULL) {
-                headToken = createNewToken(DIV, currentLexeme, lineNum, INT_MIN);
-                tailToken = headToken;
-            }
-            else {
-                tailToken -> next = createNewToken(DIV, currentLexeme, lineNum, INT_MIN);
-                tailToken = tailToken -> next;
-            }
-        }
-
-        else if(strcmp(currentLexeme, "&&&") == 0) {
-            if(tailToken == NULL) {
-                headToken = createNewToken(AND, currentLexeme, lineNum, INT_MIN);
-                tailToken = headToken;
-            }
-            else {
-                tailToken -> next = createNewToken(AND, currentLexeme, lineNum, INT_MIN);
-                tailToken = tailToken -> next;
-            }
-        }
-
-        else if(strcmp(currentLexeme, "|||") == 0) {
-            if(tailToken == NULL) {
-                headToken = createNewToken(OR, currentLexeme, lineNum, INT_MIN);
-                tailToken = headToken;
-            }
-            else {
-                tailToken -> next = createNewToken(OR, currentLexeme, lineNum, INT_MIN);
-                tailToken = tailToken -> next;
-            }
-        }
-
-        else if(strcmp(currentLexeme, "=") == 0) {
-            if(tailToken == NULL) {
-                headToken = createNewToken(EQU, currentLexeme, lineNum, INT_MIN);
-                tailToken = headToken;
-            }
-            else {
-                tailToken -> next = createNewToken(EQU, currentLexeme, lineNum, INT_MIN);
-                tailToken = tailToken -> next;
-            }
-        }
-
-        else if(strcmp(currentLexeme, "(") == 0) {
-            if(tailToken == NULL) {
-                headToken = createNewToken(RBO, currentLexeme, lineNum, INT_MIN);
-                tailToken = headToken;
-            }
-            else {
-                tailToken -> next = createNewToken(RBO, currentLexeme, lineNum, INT_MIN);
-                tailToken = tailToken -> next;
-            }
-        }
-
-        else if(strcmp(currentLexeme, ")") == 0) {
-            if(tailToken == NULL) {
-                headToken = createNewToken(RBC, currentLexeme, lineNum, INT_MIN);
-                tailToken = headToken;
-            }
-            else {
-                tailToken -> next = createNewToken(RBC, currentLexeme, lineNum, INT_MIN);
-                tailToken = tailToken -> next;
-            }
-        }
-
-        else if(isInstInt(currentLexeme)) {
-            if(tailToken == NULL) {
-                headToken = createNewToken(NUM, currentLexeme, lineNum, atoi(currentLexeme));
-                tailToken = headToken;
-            }
-            else {
-                tailToken -> next = createNewToken(NUM, currentLexeme, lineNum, atoi(currentLexeme));
-                tailToken = tailToken -> next;
-            }
-        }
-
-        // Incrementing lineNum on encountering a '\n' character.
+		// Incrementing lineNum on encountering a '\n' character.
         char nl = getc(fptr);
         if(nl == '\n'){
             lineNum++;
         }
-    }
+	}
 
-	printf("BEFORE: "); printTokenStream(headToken);
-	Token* leftToken = createNewToken(SQO, "[", -1, 0);
-	Token* rightToken = createNewToken(SQC, "]", -1, 0);
-	imputeEpsilonTokens(headToken, leftToken, rightToken);
-	deallocateTokenStream(leftToken);
-	printf("AFTER: "); printTokenStream(headToken);
-
-	// Adding epsilon tokens:
-	// 1. CBO <insert EPSILON> SEMICOLON
-	// 2. SEMICOLON <insert EPSILON> SEMICOLON
-	// 3. SEMICOLON <insert EPSILON> CBC
-
-    return headToken;
+	return headToken;
 }
 
 void imputeEpsilonTokens(Token* headToken, Token* leftToken, Token* rightToken) {
@@ -451,7 +395,7 @@ void imputeEpsilonTokens(Token* headToken, Token* leftToken, Token* rightToken) 
 		// 3. SEMICOLON <insert EPSILON> CBC
 		if((leftTraversePointer -> tokenType == leftToken -> tokenType) && (rightTraversePointer -> tokenType == rightToken -> tokenType)) {
 			// Pattern found!
-			leftTraversePointer -> next = createNewToken(EPSILON, "epsilon", leftTraversePointer -> lineNum, 0);
+			leftTraversePointer -> next = createNewToken("", leftTraversePointer -> lineNum);
 			(leftTraversePointer -> next) -> next = rightTraversePointer;
 
 			// Not updating rightTraversePointer as leftTraversePointer has to
