@@ -60,6 +60,7 @@ typedef struct{
     int dimension;
     int* size[];
     DataType dataType;
+    int *limits[2]; // 2D array to store the lower and upper limit for each dimension
     ErrorCode errCode;
 } Array;
 
@@ -86,4 +87,10 @@ void deallocateUnionType(UnionType* unionType, int tag); // Avoid memory leaks
 
 void deallocateTypeExpression(TypeExpression* typeExpression);
 
+typedef struct{
+    int varNum;
+    TypeExpression *table;
+} typeExpressionTable;
+
 #endif
+
