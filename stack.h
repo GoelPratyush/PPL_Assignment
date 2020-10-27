@@ -26,8 +26,13 @@ Node* top(Stack* s);
 // Pushes node onto stack.
 void push(Stack* s, Node* nodeToPush);
 
-// Pushes nodes from linked list onto stack in left to right order.
+// Pushes nodes from linked list onto stack in left to right order (head to
+// NULL). Useful for rightmost derivation.
 void pushn(Stack* s, Node* headNode);
+
+// Pushes nodes from linked list recursively onto stack in right to left order
+// (NULL to head). Useful for leftmost derivation.
+void pushnReverse(Stack* s, Node* headNode);
 
 // Pops node from stack.
 void pop(Stack* s);

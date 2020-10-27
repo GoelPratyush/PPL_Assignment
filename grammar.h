@@ -19,6 +19,9 @@ void printNode(Node* node);
 // Returns a deep copy of srcNode.
 Node* copyNode(Node* srcNode);
 
+// Returns a list of deep copies of nodes in linked list with head headNode.
+Node* copyList(Node* headNode);
+
 // Pretty prints linked list to stdout.
 void printList(Node* headNode);
 
