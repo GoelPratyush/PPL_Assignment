@@ -36,19 +36,18 @@
 <assign_stmts> ===> <assign_stmt>
 <assign_stmt> ===> <assign> SEMICOLON
 <assign> ===> <variable_dash> EQU <expr>
-<expr> ===> <expr> SUB <add_stmt>
+<expr> ===> <add_stmt> SUB <expr>
 <expr> ===> <add_stmt>
-<add_stmt> ===> <add_stmt> ADD <mul_stmt>
+<add_stmt> ===> <mul_stmt> ADD <add_stmt>
 <add_stmt> ===> <mul_stmt>
-<mul_stmt> ===> <mul_stmt> MUL <div_stmt>
+<mul_stmt> ===> <div_stmt> MUL <mul_stmt>
 <mul_stmt> ===> <div_stmt>
-<div_stmt> ===> <div_stmt> DIV <or_stmt>
+<div_stmt> ===> <or_stmt> DIV <div_stmt>
 <div_stmt> ===> <or_stmt>
-<or_stmt> ===> <or_stmt> OR <and_stmt>
+<or_stmt> ===> <and_stmt> OR <or_stmt>
 <or_stmt> ===> <and_stmt>
-<and_stmt> ===> <and_stmt> AND <term>
+<and_stmt> ===> <term> AND <and_stmt>
 <and_stmt> ===> <term>
-<term> ===> <expr>
 <term> ===> <variable_dash>
 <variable_dash> ===> <var> SQO <variable_list> SQC
 <variable_dash> ===> <var>

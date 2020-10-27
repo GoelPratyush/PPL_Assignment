@@ -11,6 +11,8 @@
 #include "string_utils.h"
 #include "tokenizer.h"
 
+static Token* temp = NULL; // Calling rule match recursively and we require to maintain "temp" location after recursive calls
+
 int searchLHS(Symbol* lhsSymbol, int startIndexForSearch) {
 	// Searching from startIndexForSearch to end of grammar.
 	for(int i = startIndexForSearch; i < RULE_COUNT; i++) {
@@ -29,7 +31,8 @@ int searchLHS(Symbol* lhsSymbol, int startIndexForSearch) {
 }
 
 int ruleMatch(int ruleIndex, Token* currentToken, Stack* s) {
-	pop(s);
+	temp = currentToken;
+	//pop(s);
 
 	int count = 0;
 
@@ -40,7 +43,7 @@ int ruleMatch(int ruleIndex, Token* currentToken, Stack* s) {
 	// printf("\n%d\n", count);
 	// return -1;
 
-	Token* temp = currentToken;
+	// Token* temp = currentToken;
 
 	while(count) {
 		// printTokenStream(temp);
@@ -77,6 +80,7 @@ int ruleMatch(int ruleIndex, Token* currentToken, Stack* s) {
 				printf("After removing the complete %d nodes from stack\n", count);
 				printStack(s);
 				printf("\n\n");
+				temp = currentToken;
 				return 0;
 			}
 		}
@@ -90,7 +94,7 @@ int ruleMatch(int ruleIndex, Token* currentToken, Stack* s) {
 
 			// Storing currentTop before popping it.
 			Node* currentTop = copyNode(top(s));
-			// pop(s);
+			pop(s);
 			// printf("After poping the non terminal\n");
 			// printStack(s);
 			// printf("\n\n");
@@ -118,13 +122,15 @@ int ruleMatch(int ruleIndex, Token* currentToken, Stack* s) {
 
 			// Went through the whole grammar list by expanding rhs of rules recursively, for a given grammar rule. No rule matched, so returning 0.
 			if(retVal == 0) {
+				if(count >= 1){
+					popn(s,count-1);
+				}
+				temp = currentToken;
 				return 0;
 			}
 			else{
 				printf("If the nonterminal is correctly expanded and checked\n");
 				printStack(s);
-				temp = temp -> next;
-				currentToken = temp;
 				printf("\nhere count is %d and will be reduced to %d", count, count-1);
 				printf("\n\n");
 				count--;
@@ -134,7 +140,7 @@ int ruleMatch(int ruleIndex, Token* currentToken, Stack* s) {
 
 	// RHS matches! Moving to next token in tokenStream.
 	// printStack(s);
-	currentToken = temp -> next;
+	currentToken = temp;
 	printf("\n\n");
 	printToken(currentToken);
 	printf("\n\n");

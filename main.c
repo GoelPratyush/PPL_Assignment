@@ -89,9 +89,10 @@ int main() {
 	// ---------- Testing functions from parser.c ----------
 	Token* headToken = NULL;
 	headToken = tokeniseSourcecode("test.txt", headToken);
-
 	Stack* s = createEmptyStack();
-	Node* programNode = createNode(1, "<program>");
-	push(s, programNode);
+	//Node* programNode = createNode(1, "<program>");
+	//push(s, programNode);
 	ruleMatch(0, headToken, s);
+	printf("Parse Tree is made successfully");
+	deallocateTokenStream(headToken);
 }
