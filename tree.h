@@ -14,7 +14,7 @@ typedef struct{
 
 typedef union{
     Terminal terminal;
-    NonTerminal terminal;
+    NonTerminal nonterminal;
 } NodeType;
 
 // In case of terminal we only require the token to get the Line number in sourcecode.txt and name of lexeme
