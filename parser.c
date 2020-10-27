@@ -57,29 +57,19 @@ int ruleMatch(int ruleIndex, Token* currentToken, Stack* s) {
 				// MATCH!
 				printf("Before:\n"); printTokenStream(temp); printf("\n");
 				temp = temp -> next;
-				printf("After:\n"); printTokenStream(temp); printf("\n");
+				//printf("After:\n"); printTokenStream(temp); printf("\n");
 				pop(s);
-				printf("If terminal and match then pop \n");
-				printStack(s);
-				printf("\nhere count is %d and will be reduced to %d", count, count-1);
-				printf("\n\n");
 				count--;
 			}
 
 			// If top of stack does not match temp token.
 			else if(strcmp((top(s) -> symbol) -> terminal, enumToString(temp -> tokenType)) != 0) {
-				printf("top symbol that did not match=%s\n", (top(s) -> symbol) -> terminal);
-				printToken(temp);printf("\n");
+				//printf("top symbol that did not match=%s\n", (top(s) -> symbol) -> terminal);
+				//printToken(temp);printf("\n");
 				// printf("enum to string=%s\n", enumToString(temp -> tokenType));
 				// printf("END\n");
 				
-				printf("Before removing the complete %d nodes from stack\n", count);
-				printStack(s);
-				printf("\n\n");
 				popn(s, count);
-				printf("After removing the complete %d nodes from stack\n", count);
-				printStack(s);
-				printf("\n\n");
 				temp = currentToken;
 				return 0;
 			}
@@ -95,26 +85,13 @@ int ruleMatch(int ruleIndex, Token* currentToken, Stack* s) {
 			// Storing currentTop before popping it.
 			Node* currentTop = copyNode(top(s));
 			pop(s);
-			// printf("After poping the non terminal\n");
-			// printStack(s);
-			// printf("\n\n");
 
 			int nextIndex = startIndex;
 
 			int retVal = 0;
 			do {
-				// printf("do while:\n");
-				// printf("nextIndex=%d\n", nextIndex);
-				// printf("token="); printToken(temp); printf("\n");
-				// printf("stack="); printStack(s); printf("\n\n");
 				retVal = ruleMatch(nextIndex, temp, s);
 				if(retVal == 0) {
-					printf("stack when rule match is unsuccessful\n");
-					printStack(s);
-					printf("\n");
-					printf("Top symbol is");
-					printNode(currentTop);
-					printf("\n\n");
 					nextIndex = searchLHS(currentTop -> symbol, nextIndex + 1);
 				}
 			}
@@ -129,21 +106,13 @@ int ruleMatch(int ruleIndex, Token* currentToken, Stack* s) {
 				return 0;
 			}
 			else{
-				printf("If the nonterminal is correctly expanded and checked\n");
-				printStack(s);
-				printf("\nhere count is %d and will be reduced to %d", count, count-1);
-				printf("\n\n");
 				count--;
 			}	
 		}
 	}
 
 	// RHS matches! Moving to next token in tokenStream.
-	// printStack(s);
 	currentToken = temp;
-	printf("\n\n");
-	printToken(currentToken);
-	printf("\n\n");
 	return 1;
 }
 
