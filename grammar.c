@@ -111,6 +111,16 @@ Node* copyList(Node* headNode) {
 	return copyHead;
 }
 
+int lenList(Node* headNode) {
+	int len = 0;
+	while(headNode != NULL) {
+		len++;
+		headNode = headNode -> next;
+	}
+
+	return len;
+}
+
 void printList(Node* headNode) {
 	printf("<head> [");
 	while(headNode != NULL) {

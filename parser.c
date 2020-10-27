@@ -7,6 +7,7 @@
 #include "globals.h"
 #include "parser.h"
 #include "stack.h"
+#include "string_utils.h"
 #include "tokenizer.h"
 
 int searchLHS(Symbol* lhsSymbol, int startIndexForSearch) {
@@ -26,8 +27,19 @@ int searchLHS(Symbol* lhsSymbol, int startIndexForSearch) {
 	return -1;
 }
 
-int ruleMatch(int ruleIndex, Token* currentToken, Stack* stack) {
-	int count = 0;	// To keep track of how many terminals/non-terminals pushed onto stack for current rule.
+int ruleMatch(int ruleIndex, Token* currentToken, Stack* s) {
+	/* pop(s);
+	int count = 0;
+
+	pushnReverse(s, grammar[ruleIndex]);
+	count += lenList(grammar[ruleIndex]);
+
+	Token* temp = currentToken;
+
+	while(count) {
+		if(top(s) is terminal && temp -> tokenType == top(s) )
+	}
+	*/
 	return 1;
 }
 

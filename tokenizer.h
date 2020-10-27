@@ -16,12 +16,10 @@ typedef enum {
     LIST,
     OF,
     VARIABLES,
-    ID,
     ARRAY,
     SQO,
     DOT,
     SQC,
-    NUM,
     INT,
     BOOL,
     REAL,
@@ -31,14 +29,17 @@ typedef enum {
     SIZE,
     CBO,
     CBC,
+	RBO,
     RBC,
-    RBO,
     EQU,
     ADD,
+	SUB,
     MUL,
     DIV,
+	AND,
     OR,
-    AND,
+	NUM,
+	ID,
     EPSILON
 } TokenType;
 
@@ -58,11 +59,15 @@ typedef struct token {
 // Returns 1 if string input is an instantaneous integer value, else returns 0.
 int isInstInt(char* lexeme);
 
+// Returns 1 if lexeme is a valid variable identifier name, else returns 0.
+// Invalid identifier if starts with digit.
+int isValidVarID(char* lexeme);
+
 // Make sure the Token struct returned is freed after use.
 // Deallocate memory in the order:
 // 1. Deallocate the string lexeme first.
 // 2. Then deallocate the struct itself.
-Token* createNewToken(TokenType tokenType, char lexeme[], int lineNum, int instInt);
+Token* createNewToken(char lexeme[], int lineNum);
 
 // Goes through sourcecode.txt and returns a linked list of Token structs.
 Token* tokeniseSourcecode(char* filepath, Token* headToken);

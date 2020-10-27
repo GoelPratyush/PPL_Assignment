@@ -9,10 +9,14 @@ int main() {
 	readGrammar("grammar.txt");
 
 	// ---------- Testing functions from grammar.c ----------
-	/* printGrammar();
+	printGrammar();
 
 	Token* headToken = NULL;
 	headToken = tokeniseSourcecode("sourcecode.txt", headToken);
+
+	Token* leftToken = createNewToken("[", -1);
+	Token* rightToken = createNewToken("]", -1);
+	// imputeEpsilonTokens(headToken, leftToken, rightToken);
 	printTokenStream(headToken);
 
 	Symbol* searchSymbol = createSymbol(1, "<com>");
@@ -21,7 +25,6 @@ int main() {
 	deallocateTokenStream(headToken);
 
 	deallocateGrammar();
-	*/
 
 	// ---------- Testing function copyNode ----------
 	/* Node* copy = copyNode(grammar[0]);
@@ -79,5 +82,13 @@ int main() {
 
 	pushnReverse(s, grammar[0]);
 	printStack(s); printf("\n");
+	*/
+
+	// ---------- Testing functions from tokenizer.c ----------
+	/* readGrammar("grammar.txt");
+
+	for(int i = 0; i < 10; i++) {
+		Token* newToken = createNewToken(grammar[i], )
+	}
 	*/
 }
