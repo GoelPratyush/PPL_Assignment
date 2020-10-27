@@ -15,8 +15,8 @@ typedef struct node Node;
 //  Terminals in all uppercase
 //  Non-terminals withing angle brackets
 typedef union symbol {
-  char* terminal;
-  char* nonTerminal;
+  char* terminal;		// SQO
+  char* nonTerminal;	// <program>
 } Symbol;
 
 typedef struct node {

@@ -36,45 +36,43 @@ int ruleMatch(int ruleIndex, Token* currentToken, Stack* s) {
 	pushnReverse(s, grammar[ruleIndex] -> next);
 	count += lenList(grammar[ruleIndex] -> next);
 
-	// printStack(s);
+	// printf("Start of ruleMatch:\n"); printStack(s); printf("\n\n");
 	// printf("\n%d\n", count);
 	// return -1;
 
 	Token* temp = currentToken;
 
 	while(count) {
+		printStack(s);
+		// printTokenStream(temp);
 		// top(s) is a terminal.
 		if(top(s) -> symbolTag == 0) {
-			// Extracting top token from top node of stack.
-			Token* topToken = NULL;
-			// Making token from node to get tokenType.
-			printf("%s\n", (top(s) -> symbol) -> terminal);
-			topToken = createNewToken((top(s) -> symbol) -> terminal, -1);
-
 			// If top of stack matches temp token.
-			if(topToken -> tokenType == temp -> tokenType) {
+			if(strcmp((top(s) -> symbol) -> terminal, enumToString(temp -> tokenType)) == 0) {
 				// MATCH!
+				printf("Before:\n"); printTokenStream(temp); printf("\n");
 				temp = temp -> next;
+				printf("After:\n"); printTokenStream(temp); printf("\n");
 				pop(s);
 				count--;
 			}
 
 			// If top of stack does not match temp token.
-			else if(topToken -> tokenType != temp -> tokenType) {
-				printToken(topToken); printf("\n");
-				printToken(temp); printf("\n");
-				printStack(s);
+			else if(strcmp((top(s) -> symbol) -> terminal, enumToString(temp -> tokenType)) != 0) {
+				// printf("top symbol=%s\n", (top(s) -> symbol) -> terminal);
+				// printf("enum to string=%s\n", enumToString(temp -> tokenType));
+				// printf("END\n");
+				// printStack(s);
 				popn(s, count);
-				deallocateTokenStream(topToken);	// Done with topToken.
 				return 0;
 			}
-
-			deallocateTokenStream(topToken);	// Done with topToken.
 		}
 
 		// top(s) is a non-terminal.
 		else if(top(s) -> symbolTag == 1) {
+			// printf("Non-terminal if:\n"); printStack(s); printf("\n\n");
 			int startIndex = searchLHS(top(s) -> symbol, ruleIndex + 1);
+			// printf("startIndex=%d\n", startIndex);
 
 			// Storing currentTop before popping it.
 			Node* currentTop = copyNode(top(s));
@@ -85,6 +83,10 @@ int ruleMatch(int ruleIndex, Token* currentToken, Stack* s) {
 
 			int retVal = 0;
 			do {
+				// printf("do while:\n");
+				// printf("nextIndex=%d\n", nextIndex);
+				// printf("token="); printToken(temp); printf("\n");
+				// printf("stack="); printStack(s); printf("\n\n");
 				retVal = ruleMatch(nextIndex, temp, s);
 				if(retVal == 0) {
 					nextIndex = searchLHS(currentTop -> symbol, nextIndex + 1);

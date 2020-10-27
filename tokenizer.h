@@ -82,6 +82,9 @@ void printToken(Token* token);
 // Prints linked list of tokens to stdout.
 void printTokenStream(Token* token);
 
+// Converting from enum int to string using enumValueToName in tokenizer.c
+char* enumToString(TokenType tokenType);
+
 // Deallocates memory allocated to all tokens in token stream. Can be used to
 // deallocate one token as well, provided its next pointer is NULL.
 void deallocateTokenStream(Token* headToken);

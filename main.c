@@ -10,9 +10,9 @@ int main() {
 	readGrammar("grammar.txt");
 
 	// ---------- Testing functions from grammar.c ----------
-	/* printGrammar();
+	// printGrammar();
 
-	Token* headToken = NULL;
+	/* Token* headToken = NULL;
 	headToken = tokeniseSourcecode("test.txt", headToken);
 
 	Token* leftToken = createNewToken("[", -1);
@@ -86,14 +86,7 @@ int main() {
 	printStack(s); printf("\n");
 	*/
 
-	// ---------- Testing functions from tokenizer.c ----------
-	/* readGrammar("grammar.txt");
-
-	for(int i = 0; i < 10; i++) {
-		Token* newToken = createNewToken(grammar[i], )
-	}
-	*/
-
+	// ---------- Testing functions from parser.c ----------
 	Token* headToken = NULL;
 	headToken = tokeniseSourcecode("test.txt", headToken);
 

@@ -413,7 +413,7 @@ void imputeEpsilonTokens(Token* headToken, Token* leftToken, Token* rightToken) 
 }
 
 void printToken(Token* token) {
-    printf("linNum=%-10d lex=%-20s token=%s", token -> lineNum, token -> lexeme, enumValueToName[token -> tokenType]);
+    printf("linNum=%-10d lex=%-20s token=%s", token -> lineNum, token -> lexeme, enumToString(token -> tokenType));
 }
 
 void printTokenStream(Token* headToken) {
@@ -422,6 +422,10 @@ void printTokenStream(Token* headToken) {
         printToken(currentToken); printf("\n");
         currentToken = currentToken -> next;
     }
+}
+
+char* enumToString(TokenType tokenType) {
+	return enumValueToName[tokenType];
 }
 
 // Deallocating memory allocated to every token in tokenStream linked list,

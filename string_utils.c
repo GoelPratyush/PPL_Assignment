@@ -49,7 +49,6 @@ int isNonTerminal(char s[]) {
 void processLine(char line[], char delimiter[], int grammarIndex) {
 	// Getting the first symbol in line.
 	char* symbolValue = strtok(line, delimiter);
-	symbolValue  = strtok(NULL, delimiter);
 
 	// IMPORTANT:
 	// Remember to deallocate the linked list from the last node to the first node
@@ -70,10 +69,14 @@ void processLine(char line[], char delimiter[], int grammarIndex) {
 
 	// Getting other symbols in same line.
 	while(symbolValue != NULL) {
+		symbolValue  = strtok(NULL, delimiter);		// Getting next symbol in line.
+		// Avoiding segfault, not processing if no more tokens.
+		if(symbolValue == NULL) {
+			continue;
+		}
 		// Handling symbols other than arrow.
 		if(strcmp(symbolValue, ARROW)) {
 			if(isTerminal(symbolValue)) {
-			    // printf("%s is a terminal.\n", symbol);
 			    // Inserting next symbol in a node.
 			    // Allocating space for node.
 				Node* newNode = createNode(0, symbolValue);
@@ -83,7 +86,6 @@ void processLine(char line[], char delimiter[], int grammarIndex) {
 			    currentNode = newNode;
 			}
 			else if(isNonTerminal(symbolValue)) {
-			    // printf("%s is a non-terminal.\n", symbol);
 			    // Inserting next symbol in a node.
 			    // Allocating space for node.
 			    Node* newNode = createNode(1, symbolValue);
@@ -93,8 +95,6 @@ void processLine(char line[], char delimiter[], int grammarIndex) {
 			    currentNode = newNode;
 			}
 		}
-
-		symbolValue  = strtok(NULL, delimiter);   // Getting next symbol in line.
 	}
 
 	// Array grammar is available here as it is a global variable.
