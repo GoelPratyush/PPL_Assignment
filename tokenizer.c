@@ -321,8 +321,7 @@ Token* createNewToken(char lexeme[], int lineNum) {
 	}
 
 	else {
-		printf("%s: %d\n", lexeme, strlen(lexeme));
-		if(isValidVarID(lexeme) && strcmp(lexeme, "-")) {
+		if(isValidVarID(lexeme)) {
 			newToken -> lineNum = lineNum;
 		    newToken -> tokenType = ID;
 		    strcpy(newToken -> lexeme, lexeme);

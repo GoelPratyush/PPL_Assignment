@@ -3,20 +3,21 @@
 #include "globals.h"
 #include "grammar.h"
 #include "parser.h"
+#include "stack.h"
 #include "tokenizer.h"
 
 int main() {
 	readGrammar("grammar.txt");
 
 	// ---------- Testing functions from grammar.c ----------
-	printGrammar();
+	/* printGrammar();
 
 	Token* headToken = NULL;
-	headToken = tokeniseSourcecode("sourcecode.txt", headToken);
+	headToken = tokeniseSourcecode("test.txt", headToken);
 
 	Token* leftToken = createNewToken("[", -1);
 	Token* rightToken = createNewToken("]", -1);
-	// imputeEpsilonTokens(headToken, leftToken, rightToken);
+	imputeEpsilonTokens(headToken, leftToken, rightToken);
 	printTokenStream(headToken);
 
 	Symbol* searchSymbol = createSymbol(1, "<com>");
@@ -25,6 +26,7 @@ int main() {
 	deallocateTokenStream(headToken);
 
 	deallocateGrammar();
+	*/
 
 	// ---------- Testing function copyNode ----------
 	/* Node* copy = copyNode(grammar[0]);
@@ -91,4 +93,12 @@ int main() {
 		Token* newToken = createNewToken(grammar[i], )
 	}
 	*/
+
+	Token* headToken = NULL;
+	headToken = tokeniseSourcecode("test.txt", headToken);
+
+	Stack* s = createEmptyStack();
+	Node* programNode = createNode(1, "<program>");
+	push(s, programNode);
+	ruleMatch(0, headToken, s);
 }
