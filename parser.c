@@ -72,7 +72,7 @@ int ruleMatch(TreeNode* parent, int ruleIndex, Token* currentToken, Stack* s) {
 				//printToken(temp);printf("\n");
 				// printf("enum to string=%s\n", enumToString(temp -> tokenType));
 				// printf("END\n");
-				
+
 				popn(s, count);
 				temp = currentToken;
 				return 0;
@@ -94,7 +94,7 @@ int ruleMatch(TreeNode* parent, int ruleIndex, Token* currentToken, Stack* s) {
 
 			int retVal = 0;
 			do {
-				retVal = ruleMatch(nextIndex, temp, s);
+				retVal = ruleMatch(parent, nextIndex, temp, s);
 				if(retVal == 0) {
 					printf("Top node is: \n");
 					printNode(currentTop);
@@ -114,7 +114,7 @@ int ruleMatch(TreeNode* parent, int ruleIndex, Token* currentToken, Stack* s) {
 			}
 			else{
 				count--;
-			}	
+			}
 		}
 	}
 

@@ -98,5 +98,4 @@ int main() {
 	ruleMatch(parseTree -> root, 0, headToken, s);
 	printf("Parse Tree is made successfully\n");
 	deallocateTokenStream(headToken);
-	*/
 }
