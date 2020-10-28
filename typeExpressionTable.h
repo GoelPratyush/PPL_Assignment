@@ -73,6 +73,8 @@ typedef struct{
     ErrorCode errCode; // What type of error
 } Error;
 
+void printTypeExpression(TypeExpression* typeExpr);
+
 void initializeSizeofJaggedArray(JaggedArray* jaggedArray); // Allocate the heap memory given the dimensions and limits
 
 void deallocateError(Error* error); // avoid memory leaks

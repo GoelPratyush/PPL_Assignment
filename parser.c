@@ -10,6 +10,7 @@
 #include "stack.h"
 #include "string_utils.h"
 #include "tokenizer.h"
+#include "parsetree.h"
 
 static Token* temp = NULL; // Calling rule match recursively and we require to maintain "temp" location after recursive calls
 
@@ -30,7 +31,7 @@ int searchLHS(Symbol* lhsSymbol, int startIndexForSearch) {
 	return -1;
 }
 
-int ruleMatch(int ruleIndex, Token* currentToken, Stack* s) {
+int ruleMatch(TreeNode* parent, int ruleIndex, Token* currentToken, Stack* s) {
 	temp = currentToken;
 	//pop(s);
 

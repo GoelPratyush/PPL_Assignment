@@ -34,28 +34,40 @@ typedef struct{
     int ruleIndex;
 } NonTerminal;
 
+// Print one tree Node
 void printTreeNode(TreeNode* treeNode);
 
+// Print the complete parse tree in preorder fashion
 void printParseTree(ParseTree* parseTree);
 
-ParseTree* createParseTree(TreeNode* root);
+// Print tree from current node in preorder fashion
+void printDFSTree(TreeNode* treeNode);
 
+// Create a parse tree with root node always being <program> non terminal
+ParseTree* createParseTree();
+
+// Create terminal tree node
 TreeNode* createTerminalTreeNode(Symbol* symbol, TreeNode* parent, int depth, Token* token);
 
+// Create non terminal tree node
 TreeNode* createNonTerminalTreeNode(Symbol* symbol, TreeNode* parent, int depth, int ruleindex);
 
 // TreeNodeType* createTreeNodeType(int symbolTag);
-
+// Create terminal
 Terminal* createTerminal(Token* token);
 
+// Create non terminal 
 NonTerminal* createNonTerminal(int ruleindex);
 
+// deallocate non terminal
 void deallocateNonTerminal(NonTerminal* nonterminal);
 
+// deallocate terminal
 void deallocateTerminal(Terminal* terminal);
 
 // void deallocateTreeNodeType(TreeNodeType* treeNodeType);
-
+// deallocate tree node
 void deallocateTreeNode(TreeNode* treeNode);
 
-void deallocateParseTree(ParseTree* parsetree);
+// deallocate parse tree in Inroder fashion
+void deallocateParseTree(ParseTree* parseTree);
