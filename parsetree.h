@@ -34,6 +34,20 @@ typedef struct{
     int ruleIndex;
 } NonTerminal;
 
+void printTreeNode(TreeNode* treeNode);
+
+void printParseTree(ParseTree* parseTree);
+
+ParseTree* createParseTree(TreeNode* root);
+
+TreeNode* createTreeNode(Symbol* symbol, TreeNodeType* treeNodeType, int symbolTag, TreeNode* parent, int depth);
+
+TreeNodeType* createTreeNodeType(int symbolTag);
+
+Terminal* createTerminal(Token* token);
+
+NonTerminal* createNonTerminal(int ruleindex, TypeExpression* typeExpre);
+
 void deallocateNonTerminal(NonTerminal* nonterminal);
 
 void deallocateTerminal(Terminal* terminal);
