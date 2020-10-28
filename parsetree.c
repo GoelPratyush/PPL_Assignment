@@ -155,7 +155,7 @@ void deallocateTerminal(Terminal* terminal){
     if (terminal==NULL){
         return;
     }
-    free(terminal -> token);
+    //free(terminal -> token);
     free(terminal);
 }
 

@@ -12,9 +12,9 @@ typedef enum errorcode ErrorCode;
 typedef enum datatype DataType;
 typedef struct typeexpression TypeExpression;
 typedef union uniontype UnionType;
-typedef struct jaggedarray JaggedArray;
-typedef struct array Array;
-typedef struct primitive Primitive;
+typedef struct jag JaggedArray;
+typedef struct arr Array;
+typedef struct prim Primitive;
 typedef struct error Error;
 typedef struct typeexpressiontable typeExpressionTable;
 
@@ -44,16 +44,17 @@ typedef struct typeexpression {
     char lexeme[MAX_LEXEME_LEN]; //Storing the variables
     int tag; //0 for primitive datatype, 1 for rectangular array, 2 for jagged array. It acts as tag value.
     RectangularArrayType arrayType; //This is of type as enum as it can have only 3 values if it is rectangular then find out if it is static or dynamic. If it is not a rectangular array then not_applicable
-    UnionType unionType; // Union type field 4 carrying information about primitive, rectangular array and jagged array.
+    UnionType* unionType; // Union type field 4 carrying information about primitive, rectangular array and jagged array.
+    Error* error;
 } TypeExpression;
 
-typedef union{
-    Primitive primitive;
-    Array array;
-    JaggedArray jaggedArray;
+typedef union uniontype{
+    Primitive* primitive;
+    Array* array;
+    JaggedArray* jaggedArray;
 } UnionType; //Variable type primitive, rectangular array or jagged array
 
-typedef struct jaggedarray {
+typedef struct jag {
     int lowerLimit;
     int upperLimit;
     int dimension;
@@ -62,19 +63,17 @@ typedef struct jaggedarray {
     // COLUMNS {1;2;3;4} column size is 4 and row size is 1 for each row
     // ROWS {1 2 3; 1 2; 1} column size is 3 and row size is 3 2 1 respectively for each column
     DataType dataType;
-    Error* error; // Error while declaration as that time we are populating it.
 	int* size[];
 } JaggedArray;
 
 //NOT SURE. YET TO VERIFY
-typedef struct array {
+typedef struct arr {
     int dimension;
     DataType dataType;
     int *limits[2]; // 2D array to store the lower and upper limit for each dimension
-    ErrorCode errCode;
 } Array;
 
-typedef struct primitive {
+typedef struct prim {
     DataType dataType;
 } Primitive;
 
