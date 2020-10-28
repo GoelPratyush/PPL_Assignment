@@ -40,19 +40,21 @@ void printParseTree(ParseTree* parseTree);
 
 ParseTree* createParseTree(TreeNode* root);
 
-TreeNode* createTreeNode(Symbol* symbol, TreeNodeType* treeNodeType, int symbolTag, TreeNode* parent, int depth);
+TreeNode* createTerminalTreeNode(Symbol* symbol, TreeNode* parent, int depth, Token* token);
 
-TreeNodeType* createTreeNodeType(int symbolTag);
+TreeNode* createNonTerminalTreeNode(Symbol* symbol, TreeNode* parent, int depth, int ruleindex);
+
+// TreeNodeType* createTreeNodeType(int symbolTag);
 
 Terminal* createTerminal(Token* token);
 
-NonTerminal* createNonTerminal(int ruleindex, TypeExpression* typeExpre);
+NonTerminal* createNonTerminal(int ruleindex);
 
 void deallocateNonTerminal(NonTerminal* nonterminal);
 
 void deallocateTerminal(Terminal* terminal);
 
-void deallocateTreeNodeType(TreeNodeType* treeNodeType);
+// void deallocateTreeNodeType(TreeNodeType* treeNodeType);
 
 void deallocateTreeNode(TreeNode* treeNode);
 
