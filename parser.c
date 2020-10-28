@@ -52,10 +52,13 @@ int ruleMatch(int ruleIndex, Token* currentToken, Stack* s) {
 		printStack(s);
 		printf("\n\n");
 		if(top(s) -> symbolTag == 0) {
+			printf("Before:\n");
+			printToken(temp);
+			printf("\n");
 			// If top of stack matches temp token.
 			if(strcmp((top(s) -> symbol) -> terminal, enumToString(temp -> tokenType)) == 0) {
 				// MATCH!
-				printf("Before:\n"); printTokenStream(temp); printf("\n");
+				//printf("Before:\n"); printTokenStream(temp); printf("\n");
 				temp = temp -> next;
 				//printf("After:\n"); printTokenStream(temp); printf("\n");
 				pop(s);
@@ -79,7 +82,7 @@ int ruleMatch(int ruleIndex, Token* currentToken, Stack* s) {
 		else if(top(s) -> symbolTag == 1) {
 			// printf("Non-terminal if:\n"); printStack(s); printf("\n\n");
 			printf("top non terminal symbol expanded=%s\n", (top(s) -> symbol) -> terminal);
-			int startIndex = searchLHS(top(s) -> symbol, ruleIndex + 1);
+			int startIndex = searchLHS(top(s) -> symbol, ruleIndex);
 			// printf("startIndex=%d\n", startIndex);
 
 			// Storing currentTop before popping it.
@@ -92,6 +95,9 @@ int ruleMatch(int ruleIndex, Token* currentToken, Stack* s) {
 			do {
 				retVal = ruleMatch(nextIndex, temp, s);
 				if(retVal == 0) {
+					printf("Top node is: \n");
+					printNode(currentTop);
+					printf("\n");
 					nextIndex = searchLHS(currentTop -> symbol, nextIndex + 1);
 				}
 			}

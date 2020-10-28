@@ -25,7 +25,7 @@ typedef enum {
     REAL,
     JAGGED,
     R1,
-    VALUE,
+    VALUES,
     SIZE,
     CBO,
     CBC,

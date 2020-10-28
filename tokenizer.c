@@ -27,7 +27,7 @@ char* enumValueToName[] =
     "REAL",
     "JAGGED",
     "R1",
-    "VALUE",
+    "VALUES",
     "SIZE",
     "CBO",
     "CBC",
@@ -202,7 +202,7 @@ Token* createNewToken(char lexeme[], int lineNum) {
 
 	else if(strcmp(lexeme, "values") == 0) {
 		newToken -> lineNum = lineNum;
-	    newToken -> tokenType = VALUE;
+	    newToken -> tokenType = VALUES;
 	    strcpy(newToken -> lexeme, lexeme);
 	    newToken -> instInt = INT_MIN;
 	    newToken -> next = NULL;

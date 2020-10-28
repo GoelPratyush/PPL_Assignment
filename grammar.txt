@@ -29,13 +29,13 @@
 <com> ===> <column> SEMICOLON <com>
 <com> ===> <column>
 <column> ===> NUM <column>
+<column> ===> NUM
 <column> ===> EPSILON
 <limit2> ===> NUM
 <size> ===> NUM
 <assign_stmts> ===> <assign_stmt> <assign_stmts>
 <assign_stmts> ===> <assign_stmt>
-<assign_stmt> ===> <assign> SEMICOLON
-<assign> ===> <variable_dash> EQU <expr>
+<assign_stmt> ===> <variable_dash> EQU <expr> SEMICOLON
 <expr> ===> <add_stmt> SUB <expr>
 <expr> ===> <add_stmt>
 <add_stmt> ===> <mul_stmt> ADD <add_stmt>
@@ -49,9 +49,10 @@
 <and_stmt> ===> <term> AND <and_stmt>
 <and_stmt> ===> <term>
 <term> ===> <variable_dash>
-<variable_dash> ===> <var> SQO <variable_list> SQC
-<variable_dash> ===> <var>
-<variable_list> ===> <variable> <variable_list>
-<variable_list> ===> <variable>
-<variable> ===> <var>
-<variable> ===> NUM
+<term> ===> NUM
+<variable_dash> ===> ID SQO <variable_list> SQC
+<variable_dash> ===> ID
+<variable_list> ===> NUM <variable_list>
+<variable_list> ===> NUM
+<variable_list> ===> ID <variable_list>
+<variable_list> ===> ID
