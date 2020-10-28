@@ -44,13 +44,13 @@ typedef struct typeexpression {
     char lexeme[MAX_LEXEME_LEN]; //Storing the variables
     int tag; //0 for primitive datatype, 1 for rectangular array, 2 for jagged array. It acts as tag value.
     RectangularArrayType arrayType; //This is of type as enum as it can have only 3 values if it is rectangular then find out if it is static or dynamic. If it is not a rectangular array then not_applicable
-    UnionType* unionType; // Union type field 4 carrying information about primitive, rectangular array and jagged array.
+    UnionType unionType; // Union type field 4 carrying information about primitive, rectangular array and jagged array.
 } TypeExpression;
 
-typedef union uniontype {
-    Primitive* primitive;
-    Array* array;
-    JaggedArray* jaggedArray;
+typedef union{
+    Primitive primitive;
+    Array array;
+    JaggedArray jaggedArray;
 } UnionType; //Variable type primitive, rectangular array or jagged array
 
 typedef struct jaggedarray {
@@ -72,7 +72,6 @@ typedef struct array {
     DataType dataType;
     int *limits[2]; // 2D array to store the lower and upper limit for each dimension
     ErrorCode errCode;
-	int* size[];
 } Array;
 
 typedef struct primitive {
