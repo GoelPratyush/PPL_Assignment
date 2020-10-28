@@ -2,6 +2,7 @@
 #define PARSETREE_H
 
 #include "globals.h"
+#include "grammar.h"
 #include "typeExpressionTable.h"
 #include "tokenizer.h"
 
@@ -11,7 +12,7 @@ typedef union treenodetype TreeNodeType;
 typedef struct terminal Terminal;
 typedef struct nonterminal NonTerminal;
 
-typedef struct treenode {
+typedef struct treenode{
     Symbol* symbol; // Symbol contains token names in all Capitals or non terminal name in <>
     TreeNodeType* treeNodeType; // This is tag union to store the data corresponding to terminal or a non terminal
     int symbolTag; // 0 if terminal and 1 if non terminal
@@ -23,22 +24,22 @@ typedef struct treenode {
     int depth; // depth of root node is 0
 } TreeNode;
 
-typedef struct parsetree {
+typedef struct parsetree{
     TreeNode* root;
 } ParseTree;
 
-typedef union treenodetype {
+typedef union treenodetype{
     Terminal* terminal;
     NonTerminal* nonterminal;
 } TreeNodeType;
 
 // In case of terminal we only require the token to get the Line number in sourcecode.txt and name of lexeme
-typedef struct terminal {
+typedef struct terminal{
     Token* token;
 } Terminal;
 
 // From nonterminal node we require to store the type Expression and the rule number in grammar.txt
-typedef struct nonterminal {
+typedef struct nonterminal{
     TypeExpression* typeExpr;
     int ruleIndex;
 } NonTerminal;
@@ -51,6 +52,9 @@ void printParseTree(ParseTree* parseTree);
 
 // Print tree from current node in preorder fashion
 void printDFSTree(TreeNode* treeNode);
+
+// terminals and non terminals of Grammar[i] will be stored in child nodes of the parent node
+TreeNode* fillGrammarInNodes(TreeNode* parent, int index, Token* currentToken);
 
 // Create a parse tree with root node always being <program> non terminal
 ParseTree* createParseTree();

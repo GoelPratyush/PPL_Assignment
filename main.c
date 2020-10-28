@@ -9,7 +9,7 @@
 
 int main() {
 	readGrammar("grammar.txt");
-	printGrammar();
+	// printGrammar();
 
 	// ---------- Testing functions from grammar.c ----------
 	// printGrammar();
@@ -97,5 +97,6 @@ int main() {
 	ParseTree* parseTree = createParseTree();
 	ruleMatch(parseTree -> root, 0, headToken, s);
 	printf("Parse Tree is made successfully\n");
+	deallocateParseTree(parseTree);
 	deallocateTokenStream(headToken);
 }

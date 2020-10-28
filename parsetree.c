@@ -1,7 +1,5 @@
 #include <stdlib.h>
 #include "parsetree.h"
-#include "typeExpressionTable.h"
-#include "grammar.h"
 
 // Modify pretty print according to the requirements of assignment
 void printTreeNode(TreeNode* treeNode){
@@ -14,7 +12,7 @@ void printTreeNode(TreeNode* treeNode){
     else if (treeNode -> symbolTag != 0){
         printf("Symbol name: %s\n", (treeNode -> symbol) -> nonTerminal);
         printf("Non Terminal\n");
-        printf("Type Expression: "); // printTypeExpression(((treeNode -> treeNodeType) -> nonterminal) -> typeExpr);
+        printf("Type Expression: \n"); // printTypeExpression(((treeNode -> treeNodeType) -> nonterminal) -> typeExpr);
         printf("Grammar Rule: %d\n",((treeNode -> treeNodeType) -> nonterminal) -> ruleIndex);
     }
         printf("Depth: %d\n", treeNode -> depth);
@@ -38,12 +36,46 @@ void printDFSTree(TreeNode* treeNode){
     printDFSTree(treeNode -> sibling);
 }
 
+// terminals and non terminals of Grammar[i] will be stored in child nodes of the parent node
+TreeNode* fillGrammarInNodes(TreeNode* parent, int index, Token* currentToken){
+    Node* iterator = grammar[index] -> next;
+    TreeNode* newTreeNode;
+    // Leftmost child
+    //Terminal
+    if (iterator -> symbolTag == 0){
+        newTreeNode = createTerminalTreeNode(iterator -> symbol, parent, parent -> depth + 1, currentToken);
+        parent -> leftChild = newTreeNode;
+        currentToken = currentToken -> next;
+    }
+    // Nonterminal
+    else if (iterator -> symbolTag != 0){
+        newTreeNode = createNonTerminalTreeNode(iterator -> symbol, parent, parent -> depth + 1, index);
+        parent -> leftChild = newTreeNode;
+    }
+    iterator = iterator -> next;
+
+    // Siblings
+    while(iterator != NULL){
+        // Terminal
+        if (iterator -> symbolTag == 0){
+            newTreeNode -> sibling = createTerminalTreeNode(iterator -> symbol, parent, parent -> depth + 1, currentToken);
+            currentToken = currentToken -> next;
+        }
+        // Nonterminal
+        else if (iterator -> symbolTag != 0){
+            newTreeNode -> sibling = createNonTerminalTreeNode(iterator -> symbol, parent, parent -> depth + 1, index);
+        }
+        newTreeNode = newTreeNode -> sibling;
+        iterator = iterator -> next;
+    }
+    return parent -> leftChild;
+}
+
 // Create a parse tree with root node always being <program> non terminal
 ParseTree* createParseTree(){
     ParseTree* newParseTree = malloc(sizeof(struct parsetree));
-    Symbol* programSymbol = createSymbol(1, "<program>");
-    newParseTree -> root = createNonTerminalTreeNode(programSymbol, newParseTree -> root, 0, 0);
-    deallocateSymbol(programSymbol, 1);
+    // Symbol* programSymbol = createSymbol(1, "<program>");
+    newParseTree -> root = createNonTerminalTreeNode(grammar[0] -> symbol, newParseTree -> root, 0, 0);
     return newParseTree;
 }
 
@@ -136,15 +168,20 @@ void deallocateTreeNode(TreeNode* treeNode){
         return;
     }
     deallocateSymbol(treeNode -> symbol, treeNode -> symbolTag);
+    // Terminal
     if (treeNode -> symbolTag == 0){
+        printf("LOLita\n");
         deallocateTerminal((treeNode -> treeNodeType) -> terminal);
     }
+
+    // Nonterminal
     else if (treeNode -> symbolTag !=0){
+        printf("Lonavala\n");
         deallocateNonTerminal((treeNode -> treeNodeType) -> nonterminal);
     }
     free(treeNode -> treeNodeType);
-    free(treeNode -> sibling);
-    free(treeNode -> leftChild);
+    deallocateTreeNode(treeNode -> leftChild);
+    deallocateTreeNode(treeNode -> sibling);
     free(treeNode);
 }
 

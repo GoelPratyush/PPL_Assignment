@@ -39,7 +39,7 @@ int ruleMatch(TreeNode* parent, int ruleIndex, Token* currentToken, Stack* s) {
 
 	pushnReverse(s, grammar[ruleIndex] -> next);
 	count += lenList(grammar[ruleIndex] -> next);
-
+	TreeNode* childTreeNode = fillGrammarInNodes(parent, ruleIndex, currentToken);
 	// printf("Start of ruleMatch:\n"); printStack(s); printf("\n\n");
 	// printf("\n%d\n", count);
 	// return -1;
@@ -49,13 +49,17 @@ int ruleMatch(TreeNode* parent, int ruleIndex, Token* currentToken, Stack* s) {
 	while(count) {
 		// printTokenStream(temp);
 		// top(s) is a terminal.
+		/*
 		printf("When in while loop \n");
 		printStack(s);
 		printf("\n\n");
+		*/
 		if(top(s) -> symbolTag == 0) {
+			/*
 			printf("Before:\n");
 			printToken(temp);
 			printf("\n");
+			*/
 			// If top of stack matches temp token.
 			if(strcmp((top(s) -> symbol) -> terminal, enumToString(temp -> tokenType)) == 0) {
 				// MATCH!
@@ -74,6 +78,7 @@ int ruleMatch(TreeNode* parent, int ruleIndex, Token* currentToken, Stack* s) {
 				// printf("END\n");
 
 				popn(s, count);
+				deallocateTreeNode(childTreeNode);
 				temp = currentToken;
 				return 0;
 			}
@@ -82,7 +87,7 @@ int ruleMatch(TreeNode* parent, int ruleIndex, Token* currentToken, Stack* s) {
 		// top(s) is a non-terminal.
 		else if(top(s) -> symbolTag == 1) {
 			// printf("Non-terminal if:\n"); printStack(s); printf("\n\n");
-			printf("top non terminal symbol expanded=%s\n", (top(s) -> symbol) -> terminal);
+			/*printf("top non terminal symbol expanded=%s\n", (top(s) -> symbol) -> terminal);*/
 			int startIndex = searchLHS(top(s) -> symbol, ruleIndex);
 			// printf("startIndex=%d\n", startIndex);
 
@@ -94,11 +99,13 @@ int ruleMatch(TreeNode* parent, int ruleIndex, Token* currentToken, Stack* s) {
 
 			int retVal = 0;
 			do {
-				retVal = ruleMatch(parent, nextIndex, temp, s);
+				retVal = ruleMatch(childTreeNode, nextIndex, temp, s);
 				if(retVal == 0) {
+					/*
 					printf("Top node is: \n");
 					printNode(currentTop);
 					printf("\n");
+					*/
 					nextIndex = searchLHS(currentTop -> symbol, nextIndex + 1);
 				}
 			}
@@ -116,6 +123,7 @@ int ruleMatch(TreeNode* parent, int ruleIndex, Token* currentToken, Stack* s) {
 				count--;
 			}
 		}
+		childTreeNode = childTreeNode -> sibling;
 	}
 
 	// RHS matches! Moving to next token in tokenStream.
