@@ -1,5 +1,11 @@
-main: string_utils.o grammar.o tokenizer.o stack.o parser.o main.c
-	gcc string_utils.o grammar.o tokenizer.o stack.o parser.o main.c -o main
+main: string_utils.o grammar.o tokenizer.o stack.o parser.o parsetree.o typeExpressionTable.o main.c
+	gcc string_utils.o grammar.o tokenizer.o stack.o parser.o parsetree.o typeExpressionTable.o main.c -o main
+
+typeExpressionTable.o: typeExpressionTable.c typeExpressionTable.h
+	gcc -c typeExpressionTable.c
+
+parsetree.o: parsetree.c parsetree.h
+	gcc -c parsetree.c
 
 parser.o: parser.c parser.h
 	gcc -c parser.c

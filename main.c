@@ -5,6 +5,7 @@
 #include "parser.h"
 #include "stack.h"
 #include "tokenizer.h"
+#include "parsetree.h"
 
 int main() {
 	readGrammar("grammar.txt");
@@ -93,8 +94,8 @@ int main() {
 	Stack* s = createEmptyStack();
 	//Node* programNode = createNode(1, "<program>");
 	//push(s, programNode);
-	ruleMatch(0, headToken, s);
+	ParseTree* parseTree = createParseTree();
+	ruleMatch(parseTree -> root, 0, headToken, s);
 	printf("Parse Tree is made successfully\n");
 	deallocateTokenStream(headToken);
-	*/
 }

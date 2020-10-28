@@ -10,6 +10,7 @@
 #include "stack.h"
 #include "string_utils.h"
 #include "tokenizer.h"
+#include "parsetree.h"
 
 static Token* temp = NULL; // Calling rule match recursively and we require to maintain "temp" location after recursive calls
 
@@ -30,7 +31,7 @@ int searchLHS(Symbol* lhsSymbol, int startIndexForSearch) {
 	return -1;
 }
 
-int ruleMatch(int ruleIndex, Token* currentToken, Stack* s) {
+int ruleMatch(TreeNode* parent, int ruleIndex, Token* currentToken, Stack* s) {
 	temp = currentToken;
 	//pop(s);
 
@@ -71,7 +72,7 @@ int ruleMatch(int ruleIndex, Token* currentToken, Stack* s) {
 				//printToken(temp);printf("\n");
 				// printf("enum to string=%s\n", enumToString(temp -> tokenType));
 				// printf("END\n");
-				
+
 				popn(s, count);
 				temp = currentToken;
 				return 0;
@@ -93,7 +94,7 @@ int ruleMatch(int ruleIndex, Token* currentToken, Stack* s) {
 
 			int retVal = 0;
 			do {
-				retVal = ruleMatch(nextIndex, temp, s);
+				retVal = ruleMatch(parent, nextIndex, temp, s);
 				if(retVal == 0) {
 					printf("Top node is: \n");
 					printNode(currentTop);
@@ -113,7 +114,7 @@ int ruleMatch(int ruleIndex, Token* currentToken, Stack* s) {
 			}
 			else{
 				count--;
-			}	
+			}
 		}
 	}
 
