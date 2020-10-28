@@ -17,11 +17,12 @@ int isTerminal(char s[]) {
 		exit(1);
 	}
 
-  	// Terminals must all be in uppercase.
+  	// Terminals must all be in uppercase, or may contain digits 0-9.
 	int flagAllUpper = 1;
 	for(int i = 0; i < len; i++) {
 		// ASCII range for uppercase letters is [65, 90].
-		if(s[i] < 65 || s[i] > 90) {
+		// ASCII range for digits 0-9 is [48, 57].
+		if(s[i] < 48 || (s[i] > 57 && s[i] < 65) || s[i] > 90) {
 			flagAllUpper = 0;
 			break;
 		}
