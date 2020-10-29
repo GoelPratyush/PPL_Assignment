@@ -54,16 +54,16 @@ void printParseTree(ParseTree* parseTree);
 void printDFSTree(TreeNode* treeNode);
 
 // terminals and non terminals of Grammar[i] will be stored in child nodes of the parent node
-TreeNode* fillGrammarInNodes(TreeNode* parent, int index, Token* currentToken);
+//TreeNode* fillGrammarInNodes(TreeNode* parent, int index, Token* currentToken);
 
 // Create a parse tree with root node always being <program> non terminal
 ParseTree* createParseTree();
 
 // Create terminal tree node
-TreeNode* createTerminalTreeNode(Symbol* symbol, TreeNode* parent, int depth, Token* token);
+TreeNode* createTerminalTreeNode(Node* node, TreeNode* parent, int depth, Token* token);
 
 // Create non terminal tree node
-TreeNode* createNonTerminalTreeNode(Symbol* symbol, TreeNode* parent, int depth, int ruleindex);
+TreeNode* createNonTerminalTreeNode(Node* node, TreeNode* parent, int depth, int ruleindex);
 
 // TreeNodeType* createTreeNodeType(int symbolTag);
 // Create terminal

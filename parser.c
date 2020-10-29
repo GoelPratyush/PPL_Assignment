@@ -33,26 +33,37 @@ int searchLHS(Symbol* lhsSymbol, int startIndexForSearch) {
 
 int ruleMatch(TreeNode* parent, int ruleIndex, Token* currentToken, Stack* s) {
 	temp = currentToken;
-	//pop(s);
-
+	//Token* temp2 = currentToken;
 	int count = 0;
 
 	pushnReverse(s, grammar[ruleIndex] -> next);
 	count += lenList(grammar[ruleIndex] -> next);
-	TreeNode* childTreeNode = fillGrammarInNodes(parent, ruleIndex, currentToken);
-	// printf("Start of ruleMatch:\n"); printStack(s); printf("\n\n");
-	// printf("\n%d\n", count);
-	// return -1;
-
-	// Token* temp = currentToken;
+	///*
+	Node* iterator = grammar[ruleIndex] -> next;
+	Node* tempNode = copyNode(iterator);
+	TreeNode* childTreeNode;
+	//Terminal
+	if (iterator -> symbolTag == 0){
+        childTreeNode = createTerminalTreeNode(tempNode, parent, parent -> depth + 1, temp);
+        parent -> leftChild = childTreeNode;
+        //temp2 = temp2 -> next;
+    }
+    // Nonterminal
+    else if (iterator -> symbolTag != 0){
+        childTreeNode = createNonTerminalTreeNode(tempNode, parent, parent -> depth + 1, ruleIndex);
+        parent -> leftChild = childTreeNode;
+    }
+	//*/
 
 	while(count) {
-		// printTokenStream(temp);
 		// top(s) is a terminal.
+
+		iterator = iterator -> next;
 		/*
 		printf("When in while loop \n");
 		printStack(s);
 		printf("\n\n");
+		printToken(temp);printf("\n");
 		*/
 		if(top(s) -> symbolTag == 0) {
 			/*
@@ -63,8 +74,10 @@ int ruleMatch(TreeNode* parent, int ruleIndex, Token* currentToken, Stack* s) {
 			// If top of stack matches temp token.
 			if(strcmp((top(s) -> symbol) -> terminal, enumToString(temp -> tokenType)) == 0) {
 				// MATCH!
+				//printf("Match found\n");
 				//printf("Before:\n"); printTokenStream(temp); printf("\n");
 				temp = temp -> next;
+				//temp2 = temp2 -> next;
 				//printf("After:\n"); printTokenStream(temp); printf("\n");
 				pop(s);
 				count--;
@@ -72,13 +85,14 @@ int ruleMatch(TreeNode* parent, int ruleIndex, Token* currentToken, Stack* s) {
 
 			// If top of stack does not match temp token.
 			else if(strcmp((top(s) -> symbol) -> terminal, enumToString(temp -> tokenType)) != 0) {
+				//printf("Empty the stack for this rule\n");
 				//printf("top symbol that did not match=%s\n", (top(s) -> symbol) -> terminal);
 				//printToken(temp);printf("\n");
 				// printf("enum to string=%s\n", enumToString(temp -> tokenType));
-				// printf("END\n");
 
 				popn(s, count);
-				deallocateTreeNode(childTreeNode);
+				deallocateTreeNode(parent -> leftChild);
+				parent -> leftChild = NULL;
 				temp = currentToken;
 				return 0;
 			}
@@ -86,11 +100,8 @@ int ruleMatch(TreeNode* parent, int ruleIndex, Token* currentToken, Stack* s) {
 
 		// top(s) is a non-terminal.
 		else if(top(s) -> symbolTag == 1) {
-			// printf("Non-terminal if:\n"); printStack(s); printf("\n\n");
-			/*printf("top non terminal symbol expanded=%s\n", (top(s) -> symbol) -> terminal);*/
 			int startIndex = searchLHS(top(s) -> symbol, ruleIndex);
-			// printf("startIndex=%d\n", startIndex);
-
+			//printf("If nonterminal\n");
 			// Storing currentTop before popping it.
 			Node* currentTop = copyNode(top(s));
 			pop(s);
@@ -116,6 +127,8 @@ int ruleMatch(TreeNode* parent, int ruleIndex, Token* currentToken, Stack* s) {
 				if(count >= 1){
 					popn(s,count-1);
 				}
+				deallocateTreeNode(parent -> leftChild);
+				parent -> leftChild = NULL;
 				temp = currentToken;
 				return 0;
 			}
@@ -123,9 +136,23 @@ int ruleMatch(TreeNode* parent, int ruleIndex, Token* currentToken, Stack* s) {
 				count--;
 			}
 		}
-		childTreeNode = childTreeNode -> sibling;
+		///*
+		if (count!=0 && iterator != NULL){
+			Node* tempNode = copyNode(iterator);
+        	if (iterator -> symbolTag == 0){
+            	childTreeNode -> sibling = createTerminalTreeNode(tempNode, parent, parent -> depth + 1, temp);
+            	//temp2 = temp2 -> next;
+        	}
+        	// Nonterminal
+        	else if (iterator -> symbolTag != 0){
+            	childTreeNode -> sibling = createNonTerminalTreeNode(tempNode, parent, parent -> depth + 1, ruleIndex);
+        	}
+        	childTreeNode = childTreeNode -> sibling;
+			//printf("End of while\n");
+		}
+		//*/
 	}
-
+	//printf("Outside while\n");
 	// RHS matches! Moving to next token in tokenStream.
 	currentToken = temp;
 	return 1;
