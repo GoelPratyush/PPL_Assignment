@@ -24,18 +24,40 @@ typedef enum rectangulararraytype {
     notApplicable
 } RectangularArrayType; //Question requirement if it is static or dymanic or none
 
-typedef enum errorcode {
-    improperLimits, // Upper limit is less than lower limit
-    inappropriateDimension, // For eg R1 [ 105 ] : size 4 : values { 20 21 33 ; 102 ; 35 ; 54 }
-    sizeMismatch, //R1 [ 5 ] : size 2 : values { 12 10 100 ; 76 15 8 54 432 ; 29 09 76 11; 67 27 80 }
-    limitsUndeclared  // If we have a variable as limit and it is not present in expressionTable then this error
-} ErrorCode;
-
 typedef enum datatype {
     boolean,
     integer,
     real
 } DataType; //Datatype for each variable
+
+typedef struct jag {
+    int lowerLimit;
+    int upperLimit;
+    int dimension;
+    // For 2D Jagged array store all the values in one column and the second column will remain 1 as the ROWS will be same as COLUMNS
+    // For 3D store the size of rows and columns
+    // COLUMNS {1;2;3;4} column size is 4 and row size is 1 for each row
+    // ROWS {1 2 3; 1 2; 1} column size is 3 and row size is 3 2 1 respectively for each column
+    DataType dataType;
+	int **depth; // Stores the depth of every (row,column) pair
+    int *colSize; // Stores the number of columns for every row
+} JaggedArray;
+
+typedef struct arr {
+    int dimension;
+    DataType dataType;
+    int *limits[2]; // 2D array to store the lower and upper limit for each dimension
+} Array;
+
+typedef struct prim {
+    DataType dataType;
+} Primitive;
+
+typedef union uniontype{
+    Primitive* primitive;
+    Array* array;
+    JaggedArray* jaggedArray;
+} UnionType; //Variable type primitive, rectangular array or jagged array
 
 // FOR TABLE YOU CAN MAKE IT AS AN ARRAY BUT THE PURPOSE OF ARRAY WAS TO CREATE SOME KIND OF HASH TABLE TO GET VARIABLES IN O(1) COMPLEXITY
 // OR WE CAN HAVE A LINKEDLIST IMPLEMENTATION THAT DECISION IS UPTO YOU
@@ -48,59 +70,53 @@ typedef struct typeexpression {
     Error* error;
 } TypeExpression;
 
-typedef union uniontype{
-    Primitive* primitive;
-    Array* array;
-    JaggedArray* jaggedArray;
-} UnionType; //Variable type primitive, rectangular array or jagged array
+typedef struct typeexpressiontable {
+    int varNum;
+    TypeExpression **table;
+} typeExpressionTable;
 
-typedef struct jag {
-    int lowerLimit;
-    int upperLimit;
-    int dimension;
-    // For 2D Jagged array store all the values in one column and the second column will remain 1 as the ROWS will be same as COLUMNS
-    // For 3D store the size of rows and columns
-    // COLUMNS {1;2;3;4} column size is 4 and row size is 1 for each row
-    // ROWS {1 2 3; 1 2; 1} column size is 3 and row size is 3 2 1 respectively for each column
-    DataType dataType;
-	int* size[];
-} JaggedArray;
-
-//NOT SURE. YET TO VERIFY
-typedef struct arr {
-    int dimension;
-    DataType dataType;
-    int *limits[2]; // 2D array to store the lower and upper limit for each dimension
-} Array;
-
-typedef struct prim {
-    DataType dataType;
-} Primitive;
+typedef enum errorcode {
+    improperLimits, // Upper limit is less than lower limit
+    inappropriateDimension, // For eg R1 [ 105 ] : size 4 : values { 20 21 33 ; 102 ; 35 ; 54 }
+    sizeMismatch, //R1 [ 5 ] : size 2 : values { 12 10 100 ; 76 15 8 54 432 ; 29 09 76 11; 67 27 80 }
+    limitsUndeclared  // If we have a variable as limit and it is not present in expressionTable then this error
+} ErrorCode;
 
 typedef struct error {
     bool check; //If error then true else false
     ErrorCode errCode; // What type of error
 } Error;
 
-void printTypeExpression(TypeExpression* typeExpr);
+typedef struct errortablenode{
+    int line;
+    char statementType[15];
+    char operator[2];
+    char lexeme1[MAX_LEXEME_LEN];
+    char *type1;
+    char lexeme2[MAX_LEXEME_LEN];
+    char *type2;
+    int depth;
+    char message[32];
+}ErrorTableNode;
 
-void initializeSizeofJaggedArray(JaggedArray* jaggedArray); // Allocate the heap memory given the dimensions and limits
+// *********************************************
+// Function Defs
+// *********************************************
 
-void deallocateError(Error* error); // avoid memory leaks
+//void printTypeExpression(TypeExpression* typeExpr);
 
-void deallocateJaggedArray(JaggedArray* jaggedArray); //To avoid memory leaks
+//void initializeSizeofJaggedArray(JaggedArray* jaggedArray); // Allocate the heap memory given the dimensions and limits
 
-void deallocateArray(Array* array);
+//void deallocateError(Error* error); // avoid memory leaks
 
-void deallocatePrimitive(Primitive* primitive);
+//void deallocateJaggedArray(JaggedArray* jaggedArray); //To avoid memory leaks
 
-void deallocateUnionType(UnionType* unionType, int tag); // Avoid memory leaks
+//void deallocateArray(Array* array);
 
-void deallocateTypeExpression(TypeExpression* typeExpression);
+//void deallocatePrimitive(Primitive* primitive);
 
-typedef struct typeexpressiontable {
-    int varNum;
-    TypeExpression *table;
-} typeExpressionTable;
+//void deallocateUnionType(UnionType* unionType, int tag); // Avoid memory leaks
+
+//void deallocateTypeExpression(TypeExpression* typeExpression);
 
 #endif

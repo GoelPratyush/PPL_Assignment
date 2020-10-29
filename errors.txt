@@ -4,6 +4,7 @@ DECLARATIONS
 - Jagged array epsilon
 - Jagged array if 2D then only 1 declaration
 - Jagged array size of column mismatch
+- Defining rows of jagged and row number out of bounds
 
 ASSIGNMENT
 

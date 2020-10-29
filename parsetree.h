@@ -40,7 +40,7 @@ typedef struct terminal{
 
 // From nonterminal node we require to store the type Expression and the rule number in grammar.txt
 typedef struct nonterminal{
-    TypeExpression* typeExpr;
+    TypeExpression *typeExpr;
     int ruleIndex;
 } NonTerminal;
 

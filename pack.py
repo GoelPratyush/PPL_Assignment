@@ -17,7 +17,7 @@ header = ['CS F301 Principles of Programming Languages\n',
 	('{:' + str(name_width) + 's}' + '{:' + str(id_width) + 's}\n').format('NAME', 'ID'),
 	('{:' + str(name_width) + 's}' + '{:' + str(id_width) + 's}\n').format('Nikhil Kumar', '2017B5A70658P'),
 	('{:' + str(name_width) + 's}' + '{:' + str(id_width) + 's}\n').format('Goel Pratyush Ram Sharan', '2017B5A70899P'),
-	('{:' + str(name_width) + 's}' + '{:' + str(id_width) + 's}\n').format('Dhanuka Aarnav', '2017B5A70945P'),
+	('{:' + str(name_width) + 's}' + '{:' + str(id_width) + 's}\n').format('Aarnav Dhanuka', '2017B5A70945P'),
 	('{:' + str(name_width) + 's}' + '{:' + str(id_width) + 's}\n\n').format('Aditya Vishwakarma', '2017B5A70954P'),
 	('-' * num_sep) + '\n\n'
 ]

@@ -1,4 +1,5 @@
 // Contains declarations required by several files.
+#include <string.h>
 
 #ifndef GLOBALS_H
 #define GLOBALS_H
