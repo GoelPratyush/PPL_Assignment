@@ -1,23 +1,24 @@
 #include <stdlib.h>
-#include "parsetree.h"
 #include <string.h>
+
+#include "parsetree.h"
 
 // Modify pretty print according to the requirements of assignment
 void printTreeNode(TreeNode* treeNode){
     if (treeNode -> symbolTag == 0){
-        printf("Symbol name: %s\n", (treeNode -> symbol) -> terminal);
-        printf("Terminal\n");
-        printf("Lexeme: %s\n", (((treeNode -> treeNodeType) -> terminal) -> token) -> lexeme);
-        printf("Line Number: %d\n",(((treeNode -> treeNodeType) -> terminal) -> token) -> lineNum);
+        printf("name=%-20s", (treeNode -> symbol) -> terminal);
+		printf("type=%-13s", "terminal");
+        printf("lexeme=%-8s", (((treeNode -> treeNodeType) -> terminal) -> token) -> lexeme);
+        printf("line=%-14d",(((treeNode -> treeNodeType) -> terminal) -> token) -> lineNum);
     }
     else if (treeNode -> symbolTag != 0){
-        printf("Symbol name: %s\n", (treeNode -> symbol) -> nonTerminal);
-        printf("Non Terminal\n");
-        printf("Type Expression: \n"); // printTypeExpression(((treeNode -> treeNodeType) -> nonterminal) -> typeExpr);
-        printf("Grammar Rule: %d\n",((treeNode -> treeNodeType) -> nonterminal) -> ruleIndex);
+        printf("name=%-20s", (treeNode -> symbol) -> nonTerminal);
+		printf("type=%-13s", "nonterminal");
+		printf("typeExpr=%-6d", 0); // printTypeExpression(((treeNode -> treeNodeType) -> nonterminal) -> typeExpr);
+        printf("grammarRuleIdx=%-4d",((treeNode -> treeNodeType) -> nonterminal) -> ruleIndex);
     }
-        printf("Depth: %d\n", treeNode -> depth);
-        printf("\n");
+    printf("depth=%-2d", treeNode -> depth);
+    printf("\n");
 }
 
 // Print the complete parse tree in preorder fashion

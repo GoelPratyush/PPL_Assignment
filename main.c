@@ -96,8 +96,11 @@ int main() {
 	//push(s, programNode);
 	ParseTree* parseTree = createParseTree();
 	ruleMatch(parseTree -> root, 0, headToken, s);
-	printf("Parse Tree is made successfully\n");
+	printf("Parse tree is created successfully.\n\n");
 	printParseTree(parseTree);
+	printf("\nParse tree is printed successfully.\n");
 	deallocateParseTree(parseTree);
+	printf("Parse tree is deallocated successfully.\n");
 	deallocateTokenStream(headToken);
+	printf("Token stream is deallocated successfully.\n");
 }
