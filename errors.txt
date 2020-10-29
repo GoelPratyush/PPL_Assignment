@@ -1,0 +1,15 @@
+DECLARATIONS
+
+- Array limit error
+- Jagged array epsilon
+- Jagged array if 2D then only 1 declaration
+- Jagged array size of column mismatch
+
+ASSIGNMENT
+
+- Type Mismatch - wrong opertor for variables
+- Type Mismatch - mismatch/ wrong datatype
+- Adding 2 different arrays/ jagged array
+- Any operations with dynamic arrays
+- Arrays no dimension/extra dimensions for referencing element
+- Jagged array ""
