@@ -9,100 +9,75 @@
 #include "traversetree.h"
 
 int main() {
-	readGrammar("grammar.txt");
-	// printGrammar();
+	int response = 0;
+	do {
+		printf("Options available are:\n");
+		printf("\t[0] Exit\n");
+		printf("\t[1] Create parse tree\n");
+		printf("\t[2] Construct type expression table and check for type errors\n");
+		printf("\t[3] Print parse tree\n");
+		printf("\t[4] Print type expression table\n");
+		printf("Enter the number (0/1/2/3/4) corresponding to your choice of option: ");
+		scanf("%d", &response);
+	} while(response != 0 && response != 1 && response != 2 && response != 3 && response != 4);
 
-	// ---------- Testing functions from grammar.c ----------
-	// printGrammar();
+	if(response == 0) {
+		printf("\nExiting...\n");
 
-	/* Token* headToken = NULL;
-	headToken = tokeniseSourcecode("test.txt", headToken);
+		return 0;
+	}
+	else if(response == 1) {
+		printf("\nCreating parse tree...\n");
 
-	Token* leftToken = createNewToken("[", -1);
-	Token* rightToken = createNewToken("]", -1);
-	imputeEpsilonTokens(headToken, leftToken, rightToken);
-	printTokenStream(headToken);
+		readGrammar("grammar.txt");
 
-	Symbol* searchSymbol = createSymbol(1, "<com>");
-	printf("%d\n", searchLHS(searchSymbol, 30));
+		Token* headToken = NULL;
+		headToken = tokeniseSourcecode("sourcecode.txt", headToken);
 
-	deallocateTokenStream(headToken);
+		Stack* s = createEmptyStack();
+		ParseTree* parseTree = createParseTree();
+		ruleMatch(parseTree -> root, 0, headToken, s);
 
-	deallocateGrammar();
-	*/
+		printf("Parse tree is created successfully.\n");
 
-	// ---------- Testing function copyNode ----------
-	/* Node* copy = copyNode(grammar[0]);
-	printNode(grammar[0]);
-	printf(" %d", grammar[0] -> symbolTag);
-	printf(" %s", (grammar[0] -> symbol) -> nonTerminal);
-	printf(" %p", (grammar[0] -> next));
-	printf("\n");
+		deallocateParseTree(parseTree);
 
-	printNode(copy);
-	printf(" %d", copy -> symbolTag);
-	printf(" %s", (copy -> symbol) -> nonTerminal);
-	printf(" %p", (copy -> next));
-	printf("\n");
+		return 0;
+	}
+	else if(response == 2) {
+		printf("\nConstructing type expression table and checking for type errors...\n");
 
-	printf("\n");
+		// TODO
 
-	printf(" %p", &(grammar[0] -> symbolTag));
-	printf(" %p", &((grammar[0] -> symbol) -> nonTerminal));
-	printf(" %p", &(grammar[0] -> next));
-	printf("\n");
+		return 0;
+	}
+	else if(response == 3) {
+		printf("\nPrinting parse tree...\n");
 
-	printf(" %p", &(copy -> symbolTag));
-	printf(" %p", &((copy -> symbol) -> nonTerminal));
-	printf(" %p", &(copy -> next));
-	printf("\n");
+		readGrammar("grammar.txt");
 
-	Node* copyHead = copyList(grammar[0]);
-	printList(copyHead);
-	*/
+		Token* headToken = NULL;
+		headToken = tokeniseSourcecode("sourcecode.txt", headToken);
 
-	// ---------- Testing copyList and functions from stack.c ----------
-	/* Stack* s = createEmptyStack();
-	printStack(s); printf("\n");
+		Stack* s = createEmptyStack();
+		ParseTree* parseTree = createParseTree();
+		ruleMatch(parseTree -> root, 0, headToken, s);
 
-	pop(s);
-	printStack(s); printf("\n");
+		printParseTree(parseTree);
 
-	push(s, grammar[0]);
-	printStack(s); printf("\n");
+		printf("\nParse tree is created and printed successfully.\n");
 
-	push(s, (grammar[0] -> next) -> next);
-	printStack(s); printf("\n");
+		deallocateParseTree(parseTree);
 
-	push(s, grammar[0] -> next);
-	printStack(s); printf("\n");
+		return 0;
+	}
+	else if(response == 4) {
+		printf("\nPrinting type expression table...\n");
 
-	popn(s, 3);
-	printStack(s); printf("\n");
+		readGrammar("grammar.txt");
 
-	pushn(s, grammar[0]);
-	printStack(s); printf("\n");
+		// TODO
 
-	popn(s, 9);
-
-	pushnReverse(s, grammar[0]);
-	printStack(s); printf("\n");
-	*/
-
-	// ---------- Testing functions from parser.c ----------
-	Token* headToken = NULL;
-	headToken = tokeniseSourcecode("sourcecode.txt", headToken);
-	Stack* s = createEmptyStack();
-	//Node* programNode = createNode(1, "<program>");
-	//push(s, programNode);
-	ParseTree* parseTree = createParseTree();
-	ruleMatch(parseTree -> root, 0, headToken, s);
-	printf("Parse tree is created successfully.\n\n");
-	//printParseTree(parseTree);
-	//printf("\nParse tree is printed successfully.\n");
-	traverseParseTree(parseTree->root);
-	deallocateParseTree(parseTree);
-	printf("Parse tree is deallocated successfully.\n");
-	deallocateTokenStream(headToken);
-	printf("Token stream is deallocated successfully.\n");
+		return 0;
+	}
 }
