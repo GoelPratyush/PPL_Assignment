@@ -66,10 +66,10 @@ void addJaggedLimitDim(TypeExpression *template, TreeNode *node){
     //*********** Error for unacceptable limits ***************
 
     node = node->sibling->sibling->sibling; //Moved node to <limit2>
-    
+
     template->unionType->jaggedArray->lowerLimit = node->leftChild->treeNodeType->terminal->token->instInt;
     node = node->sibling->sibling; //Moved node to <limit2>
-    
+
     template->unionType->jaggedArray->upperLimit = node->leftChild->treeNodeType->terminal->token->instInt;
 
     // If <dim> expands to <dim2>(non term), then it's 2 dimensional else it expands to SQO(term)
@@ -86,9 +86,9 @@ void addJaggedSize(TypeExpression *template, TreeNode *node, int rows){
     for(int i = 0; i<rows; i++){
         TreeNode *tempNode = node->leftChild; // tempNode on R1
         TreeNode *colNode = NULL;
-        
+
         tempNode = tempNode->sibling->sibling->sibling->sibling->sibling->sibling; // tempNode on <size>
-        
+
         int cols = tempNode->leftChild->treeNodeType->terminal->token->instInt;
         template->unionType->jaggedArray->colSize[i] = cols;
         template->unionType->jaggedArray->depth[i] = (int*)malloc(sizeof(int)*cols);
@@ -128,7 +128,7 @@ TypeExpression *addTypeExpression(TreeNode *node, char *varName){
 
     if(strcmp(node->symbol->nonTerminal, "<jagged_array1>") == 0){
         //Node is at <jagged_array1>
-        
+
         template->tag = 2;
         template->unionType->jaggedArray = (JaggedArray *)malloc(sizeof(JaggedArray));
         template->arrayType = notApplicable;
@@ -141,14 +141,14 @@ TypeExpression *addTypeExpression(TreeNode *node, char *varName){
             template->unionType->jaggedArray->dataType = real;
         else{
             //********************** For the case we have none of INT BOOL REAL in our declaration statement, record as error? ****************
-        }   
+        }
 
         addJaggedLimitDim(template, node->leftChild);
 
         int rows = template->unionType->jaggedArray->upperLimit - template->unionType->jaggedArray->lowerLimit + 1;
         template->unionType->jaggedArray->depth = (int **)malloc(sizeof(int *)*rows);
         template->unionType->jaggedArray->colSize = (int *)malloc(sizeof(int)*rows);
-        
+
         addJaggedSize(template, node->sibling->sibling->sibling->sibling->leftChild, rows); // Passing <jagged_array2>
     }
     else{
@@ -176,8 +176,8 @@ TypeExpression *addTypeExpression(TreeNode *node, char *varName){
             }
 
             node = node->leftChild->sibling; //Node is now at <dimension>
-            
-            addDimensionRectArray(template, node); 
+
+            addDimensionRectArray(template, node);
         }
         else{
             // For the case of primitive data type
@@ -205,7 +205,7 @@ TypeExpression *addTypeExpression(TreeNode *node, char *varName){
 void declarationStatemets(TreeNode* decStatement, typeExpressionTable *t){
     // Handling DECLARE LIST and DECLARE separately
     // If DECLARE LIST then the first sibling of DECLARE will be LIST that is a terminal, else it will be <var> which is a non_terminal
-    
+
     if(decStatement->leftChild->sibling->symbolTag == 1){
         // For the case of a single variable declared
         t->varNum++;
@@ -216,11 +216,11 @@ void declarationStatemets(TreeNode* decStatement, typeExpressionTable *t){
         t->table[t->varNum-1] = addTypeExpression(decStatement->leftChild->sibling->sibling->sibling, decStatement->leftChild->sibling->leftChild->treeNodeType->terminal->token->lexeme);
     }
     else{
-        
+
         // For the case of list of variables declared
         // Call addTypeExpression() for all variables of list, , call expandTypeExpressionTable as per need
         TreeNode *node = decStatement->leftChild; // node is at DECLARE
-        node = node->sibling->sibling->sibling->sibling->leftChild; // node is at <var> 
+        node = node->sibling->sibling->sibling->sibling->leftChild; // node is at <var>
         do{
             t->varNum++;
             if(t->varNum%10 == 0)
@@ -232,7 +232,7 @@ void declarationStatemets(TreeNode* decStatement, typeExpressionTable *t){
             if(node)
                 node = node->leftChild;
         }while(node);
-        
+
     }
 
     // If <stmt> has a sibling, it has to be <declaration_stmt>, hence recursively call this function for all <stmt> nodes
@@ -246,9 +246,9 @@ void printTypeExpressionTable(typeExpressionTable *t){
         UnionType *unionPointer = t->table[i]->unionType;
         int tempTag = t->table[i]->tag;
 
-        
+
         printf("Field 1 - %s\n", t->table[i]->lexeme);
-        
+
         if(tempTag == 0)
             printf("Field 2 - Primitive\n");
         else if(tempTag == 1)
@@ -310,7 +310,7 @@ void deallocateTypeExpression(TypeExpression* te) {
         free(te->unionType->jaggedArray->colSize);
         free(te->unionType->jaggedArray);
     }
-        
+
     free(te->unionType);
     free(te);
 }
@@ -328,11 +328,10 @@ void traverseParseTree(TreeNode* head, int ifPrint){
 
     // head is at <program>
     declarationStatemets(head->leftChild->sibling->sibling->sibling->sibling->leftChild, t); // Passing node pointing to <stmt>
-    printf("Type expression Table created successfully\n");
-    
+    printf("Type expression table created successfully\n");
+
     if(ifPrint)
         printTypeExpressionTable(t);
 
     deallocateTypeExpressionTable(t);
-    //printf("Dallocation done\n");
 }
