@@ -322,16 +322,17 @@ void deallocateTypeExpressionTable(typeExpressionTable *t){
     free(t);
 }
 
-void traverseParseTree(TreeNode* head){
+void traverseParseTree(TreeNode* head, int ifPrint){
     typeExpressionTable *t = initTypeExpressionTable();
     expandTable(t);
 
     // head is at <program>
     declarationStatemets(head->leftChild->sibling->sibling->sibling->sibling->leftChild, t); // Passing node pointing to <stmt>
+    printf("Type expression Table created successfully\n");
     
-    printf("declarationStatements() done\n");
-    printTypeExpressionTable(t);
+    if(ifPrint)
+        printTypeExpressionTable(t);
 
     deallocateTypeExpressionTable(t);
-    printf("Dallocation done\n");
+    //printf("Dallocation done\n");
 }

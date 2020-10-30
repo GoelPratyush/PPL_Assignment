@@ -10,6 +10,9 @@
 
 int main() {
 	int response = 0;
+
+	char *filename = "t5.txt";
+
 	do {
 		printf("Options available are:\n");
 		printf("\t[0] Exit\n");
@@ -19,65 +22,81 @@ int main() {
 		printf("\t[4] Print type expression table\n");
 		printf("Enter the number (0/1/2/3/4) corresponding to your choice of option: ");
 		scanf("%d", &response);
-	} while(response != 0 && response != 1 && response != 2 && response != 3 && response != 4);
 
-	if(response == 0) {
-		printf("\nExiting...\n");
+		if(response == 0) {
+			printf("\nExiting...\n");
+		}
+		else if(response == 1) {
+			printf("\nCreating parse tree...\n");
 
-		return 0;
-	}
-	else if(response == 1) {
-		printf("\nCreating parse tree...\n");
+			readGrammar("grammar.txt");
 
-		readGrammar("grammar.txt");
+			Token* headToken = NULL;
+			headToken = tokeniseSourcecode(filename, headToken);
 
-		Token* headToken = NULL;
-		headToken = tokeniseSourcecode("sourcecode.txt", headToken);
+			Stack* s = createEmptyStack();
+			ParseTree* parseTree = createParseTree();
+			ruleMatch(parseTree -> root, 0, headToken, s);
 
-		Stack* s = createEmptyStack();
-		ParseTree* parseTree = createParseTree();
-		ruleMatch(parseTree -> root, 0, headToken, s);
+			printf("Parse tree is created successfully.\n");
 
-		printf("Parse tree is created successfully.\n");
+			deallocateParseTree(parseTree);
+		}
+		else if(response == 2) {
+			printf("\nConstructing type expression table and checking for type errors...\n");
 
-		deallocateParseTree(parseTree);
+			readGrammar("grammar.txt");
 
-		return 0;
-	}
-	else if(response == 2) {
-		printf("\nConstructing type expression table and checking for type errors...\n");
+			Token* headToken = NULL;
+			headToken = tokeniseSourcecode(filename, headToken);
 
-		// TODO
+			Stack* s = createEmptyStack();
+			ParseTree* parseTree = createParseTree();
+			ruleMatch(parseTree -> root, 0, headToken, s);
 
-		return 0;
-	}
-	else if(response == 3) {
-		printf("\nPrinting parse tree...\n");
+			printf("Parse tree is created successfully.\n");
 
-		readGrammar("grammar.txt");
+			traverseParseTree(parseTree->root, 0);
 
-		Token* headToken = NULL;
-		headToken = tokeniseSourcecode("sourcecode.txt", headToken);
+			deallocateParseTree(parseTree);
+		}
+		else if(response == 3) {
+			printf("\nPrinting parse tree...\n");
 
-		Stack* s = createEmptyStack();
-		ParseTree* parseTree = createParseTree();
-		ruleMatch(parseTree -> root, 0, headToken, s);
+			readGrammar("grammar.txt");
 
-		printParseTree(parseTree);
+			Token* headToken = NULL;
+			headToken = tokeniseSourcecode(filename, headToken);
 
-		printf("\nParse tree is created and printed successfully.\n");
+			Stack* s = createEmptyStack();
+			ParseTree* parseTree = createParseTree();
+			ruleMatch(parseTree -> root, 0, headToken, s);
 
-		deallocateParseTree(parseTree);
+			printParseTree(parseTree);
 
-		return 0;
-	}
-	else if(response == 4) {
-		printf("\nPrinting type expression table...\n");
+			printf("\nParse tree is created and printed successfully.\n");
 
-		readGrammar("grammar.txt");
+			deallocateParseTree(parseTree);
+		}
+		else if(response == 4) {
+			printf("\nPrinting type expression table...\n");
 
-		// TODO
+			readGrammar("grammar.txt");
 
-		return 0;
-	}
+			Token* headToken = NULL;
+			headToken = tokeniseSourcecode(filename, headToken);
+
+			Stack* s = createEmptyStack();
+			ParseTree* parseTree = createParseTree();
+			ruleMatch(parseTree -> root, 0, headToken, s);
+
+			traverseParseTree(parseTree->root, 1);
+
+			deallocateParseTree(parseTree);
+		}
+		printf("\n");
+	}while(response != 0);
+
+
+	return 0;
 }

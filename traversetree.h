@@ -10,6 +10,6 @@ void addJaggedLimitDim(TypeExpression *template, TreeNode *node);
 TypeExpression *addTypeExpression(TreeNode *node, char *varName);
 void declarationStatemets(TreeNode* decStatement, typeExpressionTable *t);
 void printTypeExpressionTable(typeExpressionTable *t);
-void traverseParseTree(TreeNode* head);
+void traverseParseTree(TreeNode* head, int ifPrint);
 
 #endif
