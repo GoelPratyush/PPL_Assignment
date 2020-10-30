@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <string.h>
 
 #include "globals.h"
 #include "grammar.h"
@@ -8,12 +9,30 @@
 #include "parsetree.h"
 #include "traversetree.h"
 
-int main() {
+int main(int argc, char** argv) {
 	int response = 0;
 
-	char *filename = "t5.txt";
+	if(argc != 2) {
+		printf("Usage: ./main <test_file>\n");
+		return 0;
+	}
 
+	char* filename = malloc(sizeof(char) * strlen(argv[1]));
+	strcpy(filename, argv[1]);
+
+	int isFirstIter = 1;
 	do {
+		if(!isFirstIter) {
+			// Printing separator line.
+			for(int i = 0; i < 100; i++) {
+				printf("-");
+			}
+			printf("\n");
+		}
+		else {
+			isFirstIter = 0;
+		}
+
 		printf("Options available are:\n");
 		printf("\t[0] Exit\n");
 		printf("\t[1] Create parse tree\n");
@@ -74,7 +93,7 @@ int main() {
 
 			printParseTree(parseTree);
 
-			printf("\nParse tree is created and printed successfully.\n");
+			printf("\nParse tree created and printed successfully.\n");
 
 			deallocateParseTree(parseTree);
 		}
@@ -94,9 +113,9 @@ int main() {
 
 			deallocateParseTree(parseTree);
 		}
-		printf("\n");
-	}while(response != 0);
+	} while(response != 0);
 
+	free(filename);
 
 	return 0;
 }
