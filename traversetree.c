@@ -97,7 +97,7 @@ void addJaggedSize(TypeExpression *template, TreeNode *node, int rows){
         for(int j = 0; j<cols; j++){
             int depth = 1;
             colNode = tempNode->leftChild; //colNode at NUM
-            printf("colNode at NUM = %s\n", colNode->symbol->terminal);
+
             do{
                 colNode = colNode->sibling;
                 if(colNode){
@@ -240,6 +240,56 @@ void declarationStatemets(TreeNode* decStatement, typeExpressionTable *t){
         declarationStatemets(decStatement->sibling->leftChild, t);
 }
 
+void printTypeExpression(TypeExpression *te){
+    printf("<type=");
+    DataType tempDataType;
+    if(te->tag == 0){
+        printf("primitive, ");
+        tempDataType = te->unionType->primitive->dataType;
+    }
+    else if(te->tag == 1){
+        int dim = te->unionType->array->dimension;
+        printf("rectangularArray, dimensions=%d, ", dim);
+        for(int i = 0; i<dim; i++){
+            printf("range_R%d=(%d,%d), ", i+1, te->unionType->array->limits[0][i], te->unionType->array->limits[1][i]);
+        }
+        tempDataType = te->unionType->array->dataType;
+    }
+    else{
+        int dim = te->unionType->jaggedArray->dimension;
+        int rows = te->unionType->jaggedArray->upperLimit - te->unionType->jaggedArray->lowerLimit + 1;
+        tempDataType = te->unionType->jaggedArray->dataType;
+        printf("jaggedArray, dimensions=%d, range_R1=(%d,%d), range_R2=(",dim, te->unionType->jaggedArray->lowerLimit, te->unionType->jaggedArray->upperLimit);
+        if(dim == 2){
+            printf("%d", te->unionType->jaggedArray->colSize[0]);
+            for(int i = 1; i<rows; i++)
+                printf(",%d", te->unionType->jaggedArray->colSize[i]);
+        }
+        else{
+            int col = te->unionType->jaggedArray->colSize[0];
+            printf("%d[%d",col,te->unionType->jaggedArray->depth[0][0]);
+            for(int i = 1; i<col; i++)
+                printf(",%d", te->unionType->jaggedArray->depth[0][i]);
+            printf("]");
+            for(int i = 1; i<rows; i++){
+                col = te->unionType->jaggedArray->colSize[i];
+                printf(",%d[%d",col, te->unionType->jaggedArray->depth[i][0]);
+                for(int j = 0; j<col; j++)
+                    printf(",%d", te->unionType->jaggedArray->depth[i][j]);
+                printf("]");
+            }
+        }
+        printf("), ");
+    }
+    printf("basicElementType=");
+    if(tempDataType==boolean)   
+        printf("boolean>");
+    else if(tempDataType==integer)
+        printf("integer>");
+    else
+        printf("real>");
+}
+
 void printTypeExpressionTable(typeExpressionTable *t){
 
     for(int i = 0; i<t->varNum; i++){
@@ -247,22 +297,22 @@ void printTypeExpressionTable(typeExpressionTable *t){
         int tempTag = t->table[i]->tag;
 
         
-        printf("Field 1 - %s\n", t->table[i]->lexeme);
+        printf("%-20s", t->table[i]->lexeme);
         
         if(tempTag == 0)
-            printf("Field 2 - Primitive\n");
+            printf("%-14s","Primitive");
         else if(tempTag == 1)
-            printf("Field 2 - Rectangular\n");
+            printf("%-14s","Rectangular");
         else if(tempTag == 2)
-            printf("Field 2 - Jagged Array\n");
+            printf("%-14s","Jagged Array");
 
         if(t->table[i]->arrayType == static_)
-            printf("Field 3 - Static\n");
+            printf("%-16s","Static");
         else if(t->table[i]->arrayType == dynamic)
-            printf("Field 3 - Dynamic\n");
+            printf("%-16s","Dynamic");
         else if(t->table[i]->arrayType == notApplicable)
-            printf("Field 3 - Not Applicable\n");
-
+            printf("%-16s","Not Applicable");
+        /*
         if(tempTag == 0)
             printf("Field 4 - %d\n", unionPointer->primitive->dataType);
         else if(tempTag == 1){
@@ -285,7 +335,8 @@ void printTypeExpressionTable(typeExpressionTable *t){
                 printf("\n");
             }
         }
-
+        */
+        printTypeExpression(t->table[i]);
         printf("\n");
     }
 }
