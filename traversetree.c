@@ -274,7 +274,7 @@ void printTypeExpression(TypeExpression *te){
             for(int i = 1; i<rows; i++){
                 col = te->unionType->jaggedArray->colSize[i];
                 printf(",%d[%d",col, te->unionType->jaggedArray->depth[i][0]);
-                for(int j = 0; j<col; j++)
+                for(int j = 1; j<col; j++)
                     printf(",%d", te->unionType->jaggedArray->depth[i][j]);
                 printf("]");
             }
@@ -310,6 +310,7 @@ void printTypeExpressionTable(typeExpressionTable *t){
             printf("%-16s","Dynamic");
         else if(t->table[i]->arrayType == notApplicable)
             printf("%-16s","Not Applicable");
+        
         /*
         if(tempTag == 0)
             printf("Field 4 - %d\n", unionPointer->primitive->dataType);
