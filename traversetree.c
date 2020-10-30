@@ -4,6 +4,7 @@ typeExpressionTable *initTypeExpressionTable(){
     typeExpressionTable *newTable = (typeExpressionTable*)malloc(sizeof(typeExpressionTable));
     //newTable->table = NULL;
     newTable->varNum = 0;
+    return newTable;
 }
 
 // Function expands the table by 10 units
