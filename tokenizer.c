@@ -372,6 +372,26 @@ Token* tokeniseSourcecode(char* filepath, Token* headToken) {
         }
 	}
 
+	// Adding tokens for epsilon (empty string) where required.
+	// Case 1: { <insert epsilon> ;
+	Token* leftToken1 = createNewToken("{", -1);		// Line number is irrelevant here.
+	Token* rightToken1 = createNewToken(";", -1);	// Line number is irrelevant here.
+	imputeEpsilonTokens(headToken, leftToken1, rightToken1);
+	deallocateTokenStream(leftToken1);
+	deallocateTokenStream(rightToken1);
+	// Case 2: ; <insert epsilon> ;
+	Token* leftToken2 = createNewToken(";", -1);		// Line number is irrelevant here.
+	Token* rightToken2 = createNewToken(";", -1);	// Line number is irrelevant here.
+	imputeEpsilonTokens(headToken, leftToken2, rightToken2);
+	deallocateTokenStream(leftToken2);
+	deallocateTokenStream(rightToken2);
+	// Case 3: ; <insert epsilon> }
+	Token* leftToken3 = createNewToken("{", -1);		// Line number is irrelevant here.
+	Token* rightToken3 = createNewToken(";", -1);	// Line number is irrelevant here.
+	imputeEpsilonTokens(headToken, leftToken3, rightToken3);
+	deallocateTokenStream(leftToken3);
+	deallocateTokenStream(rightToken3);
+
 	return headToken;
 }
 
