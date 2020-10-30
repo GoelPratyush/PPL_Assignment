@@ -95,8 +95,12 @@ void addJaggedSize(TypeExpression *template, TreeNode *node, int rows){
 
         tempNode = tempNode->sibling->sibling->sibling->sibling->leftChild; // tempNode at <column>
         for(int j = 0; j<cols; j++){
-            int depth = 1;
-            colNode = tempNode->leftChild; //colNode at NUM
+            int depth;
+            colNode = tempNode->leftChild; //colNode at NUM or EPSILON
+            if(strcmp(colNode->symbol->terminal, "NUM") == 0)
+                depth = 1;
+            else
+                depth = 0;
 
             do{
                 colNode = colNode->sibling;
